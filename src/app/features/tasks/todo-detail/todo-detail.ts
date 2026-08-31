@@ -1,8 +1,8 @@
-import { Component, computed, inject, output, Signal } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { Todo } from '../../../shared/models/todo';
+import { Todo, TodoStatus } from '../../../shared/models/todo';
 import { formatDateTime } from '../../../shared/utils/date-utils';
 
 @Component({
@@ -20,5 +20,5 @@ export class TodoDetail {
   });
 
   closed = output<void>();
-  markAsCompleted = output<Todo>();
+  updatedStatus = output<{ todoToUpdate: Todo; updatedStatus: TodoStatus }>();
 }

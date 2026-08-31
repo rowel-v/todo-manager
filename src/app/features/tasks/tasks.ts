@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { TodoService } from '../../core/services/todo-service';
-import { Todo, TodoStatus } from '../../shared/models/todo';
+import { Todo } from '../../shared/models/todo';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -16,6 +16,9 @@ import { DeleteTodoDialog } from './delete-todo-dialog/delete-todo-dialog';
 import { EditTodoForm } from './edit-todo-form/edit-todo-form';
 import { TodoDetail } from './todo-detail/todo-detail';
 import { MatRippleModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
+
+type FilterSelection = 'all' | 'pending' | 'in_progress' | 'completed';
 
 @Component({
   selector: 'app-tasks',
@@ -30,6 +33,7 @@ import { MatRippleModule } from '@angular/material/core';
     EmptyTodos,
     MatDialogModule,
     MatRippleModule,
+    CommonModule,
   ],
   templateUrl: './tasks.html',
   styles: ``,
@@ -40,6 +44,11 @@ export class Tasks {
   todos = this.todoService.todos;
   selectedTodo: Todo | null = null; // use for manage todo
   formatDateTime: (date: Date) => string = formatDateTime;
+  currentFilterSelected = signal<FilterSelection>('all');
+
+  changeCurrentFilterSelected(filter: FilterSelection) {
+    this.currentFilterSelected.set(filter);
+  }
 
   openCreateTodoFormDialog() {
     const dialogRef = this.todoFormDialog.open(CreateTodoForm, {
@@ -48,7 +57,7 @@ export class Tasks {
     });
 
     dialogRef.componentInstance.submitted.subscribe((todo) => {
-      this.addTodo(todo);
+      this.todoService.addTodo(todo);
       dialogRef.close();
     });
 
@@ -65,7 +74,7 @@ export class Tasks {
     });
 
     dialogRef.componentInstance.saved.subscribe((todo) => {
-      this.updateTodo(todo);
+      this.todoService.updateTodo(todo);
       dialogRef.close();
     });
 
@@ -80,7 +89,7 @@ export class Tasks {
     });
 
     dialogRef.componentInstance.confirmed.subscribe(() => {
-      this.deleteTodo(todo);
+      this.todoService.deleteTodo(todo);
       dialogRef.close();
     });
 
@@ -96,29 +105,13 @@ export class Tasks {
       data: this.selectedTodo,
     });
 
-    dialogRef.componentInstance.markAsCompleted.subscribe((todo) => {
-      this.todoService.updateStatus(todo, 'completed');
+    dialogRef.componentInstance.updatedStatus.subscribe(({ todoToUpdate, updatedStatus }) => {
+      this.todoService.updateStatus(todoToUpdate, updatedStatus);
       dialogRef.close();
     });
 
     dialogRef.componentInstance.closed.subscribe(() => {
       dialogRef.close();
     });
-  }
-
-  addTodo(todo: Todo) {
-    this.todoService.addTodo(todo);
-  }
-
-  deleteTodo(todo: Todo) {
-    this.todoService.deleteTodo(todo);
-  }
-
-  updateStatus(todo: Todo, status: TodoStatus) {
-    this.todoService.updateStatus(todo, status);
-  }
-
-  updateTodo(todo: Todo) {
-    this.todoService.updateTodo(todo);
   }
 }

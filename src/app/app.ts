@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { Tasks } from "./features/tasks/tasks";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
-  imports: [Tasks]
+  imports: [RouterOutlet]
 })
 export class App {
 }

@@ -68,12 +68,24 @@
   >
     Close
   </button>
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="markAsCompleted.emit(todo)"
-    [disabled]="todo.status === 'completed'"
-  >
-    Mark as Completed
-  </button>
+
+  @if (todo.status === 'pending') {
+    <button
+      mat-flat-button
+      color="primary"
+      class="bg-purple-600..."
+      (click)="updatedStatus.emit({ todoToUpdate: todo, updatedStatus: 'in_progress' })"
+    >
+      Start Task
+    </button>
+  } @else if (todo.status === 'in_progress') {
+    <button
+      mat-flat-button
+      color="primary"
+      class="bg-purple-600..."
+      (click)="updatedStatus.emit({ todoToUpdate: todo, updatedStatus: 'completed'})"
+    >
+      Mark as Completed
+    </button>
+  }
 </mat-dialog-actions>
