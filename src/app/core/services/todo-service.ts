@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Todo, TodoStatus } from '../../shared/models/todo';
 
 @Injectable({
@@ -47,6 +47,40 @@ export class TodoService {
     },
   ]);
   todos = this.todosState.asReadonly();
+
+  totalTasks = computed(() => this.todosState().length);
+  totalPendingTasks = computed(
+    () => this.todosState().filter((t) => t.status === 'pending').length,
+  );
+  totalInProgressTasks = computed(
+    () => this.todosState().filter((t) => t.status === 'in_progress').length,
+  );
+  totalCompletedTasks = computed(
+    () => this.todosState().filter((t) => t.status === 'completed').length,
+  );
+
+  readonly completionRate = computed(() => {
+    const todos = this.todosState();
+    if (todos.length === 0) {
+      return 0;
+    }
+    const completed = todos.filter((todo) => todo.status === 'completed').length;
+    return Math.round((completed / todos.length) * 100);
+  });
+
+  readonly todaysTasks = computed(() => {
+    const today = new Date();
+
+    return this.todosState().filter((todo) => {
+      const dueDate = new Date(todo.duedate);
+
+      return (
+        dueDate.getFullYear() === today.getFullYear() &&
+        dueDate.getMonth() === today.getMonth() &&
+        dueDate.getDate() === today.getDate()
+      );
+    });
+  });
 
   private defaultId = 0;
 

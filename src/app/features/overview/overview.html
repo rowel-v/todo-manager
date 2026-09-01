@@ -1,1 +1,292 @@
-<p>overview works!</p>
+<div class="flex flex-col gap-8 bg-base-200/40 p-6 lg:p-8" data-theme="light">
+  <!-- Welcome -->
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-bold tracking-tight">Good morning!</h1>
+
+    <p class="text-base-content/60">Here's your task overview for today.</p>
+  </div>
+
+  <!-- Statistics -->
+  <div
+    class="stats stats-vertical w-full overflow-hidden bg-base-100 shadow-sm md:stats-horizontal"
+  >
+    <!-- Total -->
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+
+      <div class="stat-title">Total Tasks</div>
+      <div class="stat-value">{{ todoService.totalTasks() }}</div>
+      <div class="stat-desc">All your tasks</div>
+    </div>
+
+    <!-- Pending -->
+    <div class="stat">
+      <div class="stat-figure text-warning">
+        <mat-icon>schedule</mat-icon>
+      </div>
+
+      <div class="stat-title">Pending</div>
+      <div class="stat-value">{{ todoService.totalPendingTasks() }}</div>
+      <div class="stat-desc">Tasks waiting to start</div>
+    </div>
+
+    <!-- In Progress -->
+    <div class="stat">
+      <div class="stat-figure text-info">
+        <mat-icon>pending</mat-icon>
+      </div>
+
+      <div class="stat-title">In Progress</div>
+      <div class="stat-value">
+        {{ todoService.totalInProgressTasks() }}
+      </div>
+
+      <div class="stat-desc">Currently working on</div>
+    </div>
+
+    <!-- Completed -->
+    <div class="stat">
+      <div class="stat-figure text-success">
+        <mat-icon>task_alt</mat-icon>
+      </div>
+
+      <div class="stat-title">Completed</div>
+
+      <div class="stat-value">
+        {{ todoService.totalCompletedTasks() }}
+      </div>
+
+      <div class="stat-desc">{{ todoService.completionRate() }}% completion rate</div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div class="grid gap-6 lg:grid-cols-3">
+    <!-- Today's Tasks -->
+    <div class="card bg-base-100 shadow-sm lg:col-span-2">
+      <div class="card-body">
+        <!-- Header -->
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <h2 class="card-title">Today's Tasks</h2>
+
+            <p class="mt-1 text-sm text-base-content/60">Tasks you need to focus on today.</p>
+          </div>
+
+          @if (todoService.todaysTasks().length !== 0) {
+            <button class="btn btn-primary btn-sm" (click)="openCreateTodoFormDialog()">
+              <mat-icon>add</mat-icon>
+              <span class="hidden sm:inline">Add Todo</span>
+            </button>
+          }
+        </div>
+
+        <!-- Tasks -->
+        <div class="mt-5 flex flex-col gap-2">
+          @for (todo of todoService.todaysTasks(); track todo.id) {
+            <div
+              class="group flex items-center gap-4 rounded-xl border border-base-200 p-4 transition hover:border-primary/30 hover:bg-base-200/50"
+            >
+              <!-- Task information -->
+              <div class="min-w-0 flex-1" (click)="selectedTodo = todo; openTodoDetail()">
+                <h3
+                  class="truncate font-medium"
+                  [class.line-through]="todo.status === 'completed'"
+                  [class.text-base-content/40]="todo.status === 'completed'"
+                >
+                  {{ todo.name }}
+                </h3>
+
+                @if (todo.description) {
+                  <p class="mt-1 truncate text-sm text-base-content/50">
+                    {{ todo.description }}
+                  </p>
+                }
+              </div>
+
+              <!-- Status -->
+              @switch (todo.status) {
+                @case ('pending') {
+                  <div class="badge badge-warning gap-1">
+                    <mat-icon class="text-sm!">schedule</mat-icon>
+                    Pending
+                  </div>
+                }
+
+                @case ('in_progress') {
+                  <div class="badge badge-info gap-1">
+                    <mat-icon class="text-sm!">pending</mat-icon>
+                    In Progress
+                  </div>
+                }
+
+                @case ('completed') {
+                  <div class="badge badge-success gap-1">
+                    <mat-icon class="text-sm!">check</mat-icon>
+                    Completed
+                  </div>
+                }
+              }
+            </div>
+          } @empty {
+            <div class="flex flex-col items-center justify-center py-12 text-center">
+              <div class="mb-4 flex size-14 items-center justify-center rounded-full bg-base-200">
+                <mat-icon class="text-base-content/40"> task_alt </mat-icon>
+              </div>
+
+              <h3 class="text-lg font-semibold">No tasks for today</h3>
+
+              <p class="mt-1 text-sm text-base-content/60">
+                You don't have any tasks assigned for today.
+              </p>
+
+              <button class="btn btn-primary btn-sm mt-5" (click)="openCreateTodoFormDialog()">
+                <mat-icon>add</mat-icon>
+                Add Todo
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- Footer -->
+        <div class="card-actions mt-4 justify-end">
+          <a routerLink="/tasks" class="btn btn-ghost btn-sm">
+            View all tasks
+            <mat-icon>arrow_forward</mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="card bg-base-100 shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title">Your Progress</h2>
+
+        <p class="text-sm text-base-content/60">Keep up the good work!</p>
+
+        <!-- Radial progress -->
+        <div class="flex flex-1 flex-col items-center justify-center py-6">
+          <div
+            class="radial-progress text-primary"
+            style="--size: 10rem; --thickness: 10px"
+            [style.--value]="todoService.completionRate()"
+            [attr.aria-valuenow]="todoService.completionRate()"
+            role="progressbar"
+          >
+            <span class="text-2xl font-bold"> {{ todoService.completionRate() }}% </span>
+          </div>
+
+          <p class="mt-5 text-sm text-base-content/60">
+            <span class="font-semibold text-base-content">
+              {{ todoService.totalCompletedTasks() }}
+            </span>
+            of
+            <span class="font-semibold text-base-content">
+              {{ todoService.totalTasks() }}
+            </span>
+            tasks completed
+          </p>
+        </div>
+
+        <!-- Progress footer -->
+        <div class="rounded-xl bg-base-200/60 p-4">
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-base-content/60"> Overall progress </span>
+
+            <span class="font-medium"> {{ todoService.completionRate() }}% </span>
+          </div>
+
+          <progress
+            class="progress progress-primary mt-2 w-full"
+            [value]="todoService.completionRate()"
+            max="100"
+          ></progress>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Tasks -->
+  <div class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="card-title">Upcoming Tasks</h2>
+
+          <p class="mt-1 text-sm text-base-content/60">What's coming next?</p>
+        </div>
+
+        <a routerLink="/tasks" class="btn btn-ghost btn-sm"> View all </a>
+      </div>
+
+      <!-- Table -->
+      <div class="mt-4 overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Priority</th>
+              <th>Due Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="hover">
+              <td>
+                <div class="font-medium">Finish portfolio</div>
+              </td>
+
+              <td>
+                <div class="badge badge-error badge-sm">High</div>
+              </td>
+
+              <td class="text-base-content/70">Sep 2, 2026</td>
+
+              <td>
+                <div class="badge badge-warning">Pending</div>
+              </td>
+            </tr>
+
+            <tr class="hover">
+              <td>
+                <div class="font-medium">Review Angular routing</div>
+              </td>
+
+              <td>
+                <div class="badge badge-info badge-sm">Medium</div>
+              </td>
+
+              <td class="text-base-content/70">Sep 3, 2026</td>
+
+              <td>
+                <div class="badge badge-info">In Progress</div>
+              </td>
+            </tr>
+
+            <tr class="hover">
+              <td>
+                <div class="font-medium">Deploy Todo API</div>
+              </td>
+
+              <td>
+                <div class="badge badge-success badge-sm">Low</div>
+              </td>
+
+              <td class="text-base-content/70">Sep 5, 2026</td>
+
+              <td>
+                <div class="badge badge-warning">Pending</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+```
