@@ -119,4 +119,18 @@ export class TodoService {
       ),
     );
   }
+
+  upcomingTodos(): Todo[] {
+    const now = new Date();
+    return this.todos()
+      .filter((todo) => {
+        if (!todo.duedate) {
+          return false;
+        }
+        return new Date(todo.duedate) > now;
+      })
+      .sort((a, b) => {
+        return new Date(a.duedate!).getTime() - new Date(b.duedate!).getTime();
+      });
+  }
 }

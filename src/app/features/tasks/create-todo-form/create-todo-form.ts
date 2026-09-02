@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, computed, output, Signal, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { Todo, TodoPriority, TodoStatus } from '../../../shared/models/todo';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-create-todo-form',
@@ -50,7 +51,6 @@ export class CreateTodoForm {
       validators: [Validators.required],
     }),
     dueTime: new FormControl<Date | null>(null, {
-      nonNullable: true,
       validators: [Validators.required],
     }),
   });
@@ -83,4 +83,31 @@ export class CreateTodoForm {
     };
     this.submitted.emit(todo);
   }
+
+  todayDate = new Date();
+
+  dueDateSignal: Signal<Date | null> = toSignal(this.todoForm.controls.dueDate.valueChanges, {
+    initialValue: this.todoForm.controls.dueDate.value,
+  });
+
+  minTime = computed(() => {
+    const selectedDueDate = this.dueDateSignal()
+
+    if (!selectedDueDate) {
+      return null; // If no date is selected yet, DO NOT restrict the time.
+    }
+
+    // Check if the selected date is exactly today
+    const selectedDueDateIsToday =
+      selectedDueDate.getDate() === this.todayDate.getDate() &&
+      selectedDueDate.getMonth() === this.todayDate.getMonth() &&
+      selectedDueDate.getFullYear() === this.todayDate.getFullYear();
+
+    if (selectedDueDateIsToday) {
+      return new Date(); // // Restrict to current time and future times only
+    }
+
+    return null; // No time restrictions for future dates
+  });
+
 }

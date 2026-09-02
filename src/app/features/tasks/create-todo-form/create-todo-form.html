@@ -60,7 +60,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Due date</mat-label>
 
-      <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+      <input matInput [matDatepicker]="picker" [min]="todayDate" formControlName="dueDate" />
 
       <mat-hint>MM/DD/YYYY</mat-hint>
 
@@ -75,11 +75,14 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Due time</mat-label>
-      <input matInput [matTimepicker]="timePicker" formControlName="dueTime" />
+      <input matInput [matTimepicker]="timePicker" [matTimepickerMin]="minTime()" formControlName="dueTime" />
       <mat-timepicker-toggle matIconSuffix [for]="timePicker" />
       <mat-timepicker #timePicker />
       @if (todoForm.controls.dueTime.hasError('required')) {
         <mat-error> Due time is required. </mat-error>
+      }
+      @if (todoForm.controls.dueTime.hasError('matTimepickerMin')) {
+        <mat-error> Time cannot be in the past. </mat-error>
       }
     </mat-form-field>
 

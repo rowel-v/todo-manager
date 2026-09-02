@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TodoService } from '../../core/services/todo-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { Todo } from '../../shared/models/todo';
 import { A11yModule } from '@angular/cdk/a11y';
 import { TodoDetail } from '../tasks/todo-detail/todo-detail';
+import { formatDateTime } from '../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-overview',
@@ -15,8 +16,9 @@ import { TodoDetail } from '../tasks/todo-detail/todo-detail';
   styles: ``,
 })
 export class Overview {
-  todoService = inject(TodoService);
+  readonly todoService = inject(TodoService);
   selectedTodo: Todo | null = null;
+  readonly formatDateTime = formatDateTime;
   private readonly todoFormDialog = inject(MatDialog);
 
   openCreateTodoFormDialog() {
