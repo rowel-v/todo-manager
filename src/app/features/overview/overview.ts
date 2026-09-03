@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TodoService } from '../../core/services/todo-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,20 +8,40 @@ import { Todo } from '../../shared/models/todo';
 import { A11yModule } from '@angular/cdk/a11y';
 import { TodoDetail } from '../tasks/todo-detail/todo-detail';
 import { formatDateTime } from '../../shared/utils/date-utils';
+import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-details-modal';
+
+type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
 
 @Component({
   selector: 'app-overview',
-  imports: [MatIconModule, RouterLink, A11yModule],
+  imports: [MatIconModule, RouterLink, A11yModule, TotalTasksDetailsModal],
   templateUrl: './overview.html',
   styles: ``,
 })
 export class Overview {
-  readonly todoService = inject(TodoService);
-  selectedTodo: Todo | null = null;
-  readonly formatDateTime = formatDateTime;
+  private readonly todoService = inject(TodoService);
+  protected readonly todos = this.todoService.todos;
+  protected selectedTodo: Todo | null = null;
+  protected readonly formatDateTime = formatDateTime;
   private readonly todoFormDialog = inject(MatDialog);
+  protected modalTodosDetails: TodosDetailsFlag = null;
+  protected todosDetailsFlag = signal<TodosDetailsFlag>(null);
+  protected isClosing = signal(false);
+  openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
+    this.todosDetailsFlag.set(currentTodosDetailsSelected);
+  }
 
-  openCreateTodoFormDialog() {
+  closeTodosDetails(event: Event) {
+    event.stopPropagation();
+
+    this.isClosing.set(true);
+
+    setTimeout(() => {
+      this.todosDetailsFlag.set(null);
+      this.isClosing.set(false);
+    }, 500);
+  }
+  protected openCreateTodoFormDialog() {
     const dialogRef = this.todoFormDialog.open(CreateTodoForm, {
       width: '600px',
       height: '90vh',
@@ -37,7 +57,7 @@ export class Overview {
     });
   }
 
-  openTodoDetail() {
+  protected openTodoDetail() {
     const dialogRef = this.todoFormDialog.open(TodoDetail, {
       width: '500px',
       data: this.selectedTodo,
@@ -51,5 +71,32 @@ export class Overview {
     dialogRef.componentInstance.closed.subscribe(() => {
       dialogRef.close();
     });
+  }
+
+  protected totalTasks(): number {
+    return this.todoService.totalTasks();
+  }
+
+  protected totalPendingTasks(): number {
+    return this.todoService.totalPendingTasks();
+  }
+
+  protected totalInProgressTasks(): number {
+    return this.todoService.totalInProgressTasks();
+  }
+
+  protected totalCompletedTasks(): number {
+    return this.todoService.totalCompletedTasks();
+  }
+
+  protected completionRate(): number {
+    return this.todoService.completionRate();
+  }
+
+  protected todaysTasks(): Todo[] {
+    return this.todoService.todaysTasks();
+  }
+  protected upcomingTodos(): Todo[] {
+    return this.todoService.upcomingTodos();
   }
 }

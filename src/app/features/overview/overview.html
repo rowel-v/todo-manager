@@ -1,15 +1,35 @@
 <div class="flex flex-col gap-8 bg-base-200/40 p-6 h-full" data-theme="light">
   <!-- Statistics -->
-  <div class="stats stats-vertical w-full bg-base-100 shadow-sm md:stats-horizontal shrink-0">
+  <div
+    class="stats stats-vertical w-full bg-base-100 shadow-sm md:stats-horizontal shrink-0 overflow-visible"
+  >
     <!-- Total -->
-    <div class="stat">
+    <div
+      class="stat relative border border-base-200 transition hover:bg-blue-100 cursor-pointer"
+      (click)="openModalTodosDetailsFlag('total')"
+    >
       <div class="stat-figure text-primary">
         <mat-icon>check_circle</mat-icon>
       </div>
 
       <div class="stat-title">Total Tasks</div>
-      <div class="stat-value">{{ todoService.totalTasks() }}</div>
+      <div class="stat-value py-2">{{ totalTasks() }}</div>
       <div class="stat-desc">All your tasks</div>
+
+      @if (todosDetailsFlag() === 'total') {
+        <!-- 1. Invisible backdrop to catch outside clicks -->
+        <div class="fixed inset-0 z-9998 cursor-default" (click)="closeTodosDetails($event)"></div>
+
+        <!-- 2. Wrap the modal and stop propagation so clicking INSIDE it doesn't close it -->
+        <div
+          class="absolute left-full top-0 z-9999 ml-2 cursor-default"
+          [class.scale-in-tl]="!isClosing()"
+          [class.scale-out-tl]="isClosing()"
+          (click)="$event.stopPropagation()"
+        >
+          <app-total-tasks-details-modal [todos]="todos()" (onClose)="closeTodosDetails($event)" />
+        </div>
+      }
     </div>
 
     <!-- Pending -->
@@ -19,7 +39,7 @@
       </div>
 
       <div class="stat-title">Pending</div>
-      <div class="stat-value">{{ todoService.totalPendingTasks() }}</div>
+      <div class="stat-value">{{ totalPendingTasks() }}</div>
       <div class="stat-desc">Tasks waiting to start</div>
     </div>
 
@@ -31,7 +51,7 @@
 
       <div class="stat-title">In Progress</div>
       <div class="stat-value">
-        {{ todoService.totalInProgressTasks() }}
+        {{ totalInProgressTasks() }}
       </div>
 
       <div class="stat-desc">Currently working on</div>
@@ -46,10 +66,10 @@
       <div class="stat-title">Completed</div>
 
       <div class="stat-value">
-        {{ todoService.totalCompletedTasks() }}
+        {{ totalCompletedTasks() }}
       </div>
 
-      <div class="stat-desc">{{ todoService.completionRate() }}% completion rate</div>
+      <div class="stat-desc">{{ completionRate() }}% completion rate</div>
     </div>
   </div>
 
@@ -67,7 +87,7 @@
               <p class="mt-1 text-sm text-base-content/60">Tasks you need to focus on today.</p>
             </div>
 
-            @if (todoService.todaysTasks().length !== 0) {
+            @if (todaysTasks().length !== 0) {
               <button class="btn btn-primary btn-sm" (click)="openCreateTodoFormDialog()">
                 <mat-icon>add</mat-icon>
                 <span class="hidden sm:inline">Add Todo</span>
@@ -77,7 +97,7 @@
 
           <!-- Tasks -->
           <div class="mt-5 flex flex-col gap-2">
-            @for (todo of todoService.todaysTasks(); track todo.id) {
+            @for (todo of todaysTasks(); track todo.id) {
               <div
                 class="group flex items-center gap-4 rounded-xl border border-base-200 p-4 transition hover:border-primary/30 hover:bg-blue-100 cursor-pointer"
                 (click)="selectedTodo = todo; openTodoDetail()"
@@ -165,20 +185,20 @@
             <div
               class="radial-progress text-primary"
               style="--size: 10rem; --thickness: 10px"
-              [style.--value]="todoService.completionRate()"
-              [attr.aria-valuenow]="todoService.completionRate()"
+              [style.--value]="completionRate()"
+              [attr.aria-valuenow]="completionRate()"
               role="progressbar"
             >
-              <span class="text-2xl font-bold"> {{ todoService.completionRate() }}% </span>
+              <span class="text-2xl font-bold"> {{ completionRate() }}% </span>
             </div>
 
             <p class="mt-5 text-sm text-base-content/60">
               <span class="font-semibold text-base-content">
-                {{ todoService.totalCompletedTasks() }}
+                {{ totalCompletedTasks() }}
               </span>
               of
               <span class="font-semibold text-base-content">
-                {{ todoService.totalTasks() }}
+                {{ totalTasks() }}
               </span>
               tasks completed
             </p>
@@ -189,12 +209,12 @@
             <div class="flex items-center justify-between text-sm">
               <span class="text-base-content/60"> Overall progress </span>
 
-              <span class="font-medium"> {{ todoService.completionRate() }}% </span>
+              <span class="font-medium"> {{ completionRate() }}% </span>
             </div>
 
             <progress
               class="progress progress-primary mt-2 w-full"
-              [value]="todoService.completionRate()"
+              [value]="completionRate()"
               max="100"
             ></progress>
           </div>
@@ -228,7 +248,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (upcomingTodo of todoService.upcomingTodos(); track upcomingTodo.id) {
+              @for (upcomingTodo of upcomingTodos(); track upcomingTodo.id) {
                 <tr
                   class="group rounded-xl border border-base-200 transition hover:border-primary/30 hover:bg-blue-100"
                   (click)="selectedTodo = upcomingTodo; openTodoDetail()"

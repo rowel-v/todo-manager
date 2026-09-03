@@ -29,8 +29,16 @@
     <div class="px-6 pt-6 w-full shrink-0">
       <div class="overflow-hidden flex flex-col">
         <div class="flex flex-row items-center gap-6">
-          <button mat-icon-button (click)="sidenav.toggle()" class="flex! cursor-pointer">
-            <mat-icon>menu</mat-icon>
+          <button
+            mat-icon-button
+            (click)="sidenav.toggle(); openSideNav = !openSideNav"
+            class="flex! cursor-pointer"
+          >
+            @if (openSideNav) {
+              <mat-icon>menu</mat-icon>
+            } @else {
+              <mat-icon>close</mat-icon>
+            }
           </button>
 
           @if (currentSideNav === 'home') {

@@ -5,7 +5,7 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-type CurrentSidenav = 'home' | 'tasks' | 'settings'
+type CurrentSidenav = 'home' | 'tasks' | 'settings';
 
 @Component({
   selector: 'app-main-layout',
@@ -21,7 +21,6 @@ type CurrentSidenav = 'home' | 'tasks' | 'settings'
   styles: ``,
 })
 export class MainLayout {
-
-  currentSideNav: CurrentSidenav = 'home'
-
+  openSideNav = false;
+  currentSideNav: CurrentSidenav = 'home';
 }
