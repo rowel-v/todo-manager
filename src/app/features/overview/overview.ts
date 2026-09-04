@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, inject, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TodoService } from '../../core/services/todo-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,18 +20,18 @@ type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null
 })
 export class Overview {
   private readonly todoService = inject(TodoService);
-  protected readonly todos = this.todoService.todos;
-  protected selectedTodo: Todo | null = null;
-  protected readonly formatDateTime = formatDateTime;
+  protected readonly todos: Signal<Todo[]> = this.todoService.todos;
+  protected selectedTodo = signal<Todo | null>(null);
+  protected readonly formatDateTime: (d:Date) => string = formatDateTime;
   private readonly todoFormDialog = inject(MatDialog);
   protected modalTodosDetails: TodosDetailsFlag = null;
   protected todosDetailsFlag = signal<TodosDetailsFlag>(null);
   protected isClosing = signal(false);
-  openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
+  protected openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
     this.todosDetailsFlag.set(currentTodosDetailsSelected);
   }
 
-  closeTodosDetails(event: Event) {
+  protected closeTodosDetails(event: Event) {
     event.stopPropagation();
 
     this.isClosing.set(true);
@@ -39,7 +39,7 @@ export class Overview {
     setTimeout(() => {
       this.todosDetailsFlag.set(null);
       this.isClosing.set(false);
-    }, 500);
+    }, 200);
   }
   protected openCreateTodoFormDialog() {
     const dialogRef = this.todoFormDialog.open(CreateTodoForm, {

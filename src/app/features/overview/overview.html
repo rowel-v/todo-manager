@@ -17,18 +17,7 @@
       <div class="stat-desc">All your tasks</div>
 
       @if (todosDetailsFlag() === 'total') {
-        <!-- 1. Invisible backdrop to catch outside clicks -->
-        <div class="fixed inset-0 z-9998 cursor-default" (click)="closeTodosDetails($event)"></div>
-
-        <!-- 2. Wrap the modal and stop propagation so clicking INSIDE it doesn't close it -->
-        <div
-          class="absolute left-full top-0 z-9999 ml-2 cursor-default"
-          [class.scale-in-tl]="!isClosing()"
-          [class.scale-out-tl]="isClosing()"
-          (click)="$event.stopPropagation()"
-        >
-          <app-total-tasks-details-modal [todos]="todos()" (onClose)="closeTodosDetails($event)" />
-        </div>
+        <app-total-tasks-details-modal [todos]="todos()" (onClose)="todosDetailsFlag.set(null)" />
       }
     </div>
 
@@ -100,7 +89,7 @@
             @for (todo of todaysTasks(); track todo.id) {
               <div
                 class="group flex items-center gap-4 rounded-xl border border-base-200 p-4 transition hover:border-primary/30 hover:bg-blue-100 cursor-pointer"
-                (click)="selectedTodo = todo; openTodoDetail()"
+                (click)="selectedTodo.set(todo); openTodoDetail()"
               >
                 <!-- Task information -->
                 <div class="min-w-0 flex-1">
@@ -251,7 +240,7 @@
               @for (upcomingTodo of upcomingTodos(); track upcomingTodo.id) {
                 <tr
                   class="group rounded-xl border border-base-200 transition hover:border-primary/30 hover:bg-blue-100"
-                  (click)="selectedTodo = upcomingTodo; openTodoDetail()"
+                  (click)="selectedTodo.set(upcomingTodo); openTodoDetail()"
                 >
                   <td>
                     <div class="font-medium">{{ upcomingTodo.name }}</div>

@@ -1,60 +1,72 @@
-<div class="w-80 rounded-xl border border-base-300 bg-base-100 p-5 shadow-xl">
-  <!-- Header -->
-  <div class="mb-4 flex justify-between">
-    <div>
-      <h2 class="text-lg font-bold">Total Tasks</h2>
+<!-- 1. Invisible backdrop to catch outside clicks -->
+<div class="fixed inset-0 z-9998 cursor-default" (click)="closeTodosDetails($event)"></div>
+
+<!-- 2. Wrap the modal and stop propagation so clicking INSIDE it doesn't close it -->
+<div
+  class="absolute left-full top-0 z-9999 ml-2 cursor-default"
+  [class.scale-in-tl]="!isClosing()"
+  [class.scale-out-tl]="isClosing()"
+  (click)="$event.stopPropagation()"
+>
+  <div class="w-80 rounded-xl border border-base-300 bg-base-100 p-5 shadow-xl">
+    <!-- Header -->
+    <div class="mb-4 flex justify-between">
+      <div>
+        <h2 class="text-lg font-bold">Total Tasks</h2>
+      </div>
+
+      <mat-icon
+        class="cursor-pointer hover:bg-gray-200"
+        (click)="closeTodosDetails($event)"
+        >close</mat-icon
+      >
     </div>
 
-    <mat-icon class="cursor-pointer hover:bg-gray-200" (click)="onClose.emit($event); $event.stopPropagation()">close</mat-icon>
+    <!-- Breakdown -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <mat-icon class="text-success">check_circle</mat-icon>
+          <span>Completed</span>
+        </div>
+
+        <span class="font-semibold">
+          {{ completedTasks().length }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <mat-icon class="text-warning">pending</mat-icon>
+          <span>Pending</span>
+        </div>
+
+        <span class="font-semibold">
+          {{ pendingTasks().length }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <mat-icon class="text-error">warning</mat-icon>
+          <span>Overdue</span>
+        </div>
+
+        <span class="font-semibold">
+          {{ overdueTodos().length }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <mat-icon class="text-info">event</mat-icon>
+          <span>Upcoming</span>
+        </div>
+
+        <span class="font-semibold">
+          {{ upcomingTodos().length }}
+        </span>
+      </div>
+    </div>
   </div>
-
-  <!-- Breakdown -->
-  <div class="space-y-3">
-
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <mat-icon class="text-success">check_circle</mat-icon>
-        <span>Completed</span>
-      </div>
-
-      <span class="font-semibold">
-        {{ completedTasks().length }}
-      </span>
-    </div>
-
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <mat-icon class="text-warning">pending</mat-icon>
-        <span>Pending</span>
-      </div>
-
-      <span class="font-semibold">
-        {{ pendingTasks().length }}
-      </span>
-    </div>
-
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <mat-icon class="text-error">warning</mat-icon>
-        <span>Overdue</span>
-      </div>
-
-      <span class="font-semibold">
-        {{ overdueTodos().length }}
-      </span>
-    </div>
-
-    <div class="flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <mat-icon class="text-info">event</mat-icon>
-        <span>Upcoming</span>
-      </div>
-
-      <span class="font-semibold">
-        {{ upcomingTodos().length }}
-      </span>
-    </div>
-
-  </div>
-
 </div>

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Todo } from '../../../shared/models/todo';
 
@@ -10,21 +10,39 @@ import { Todo } from '../../../shared/models/todo';
 })
 export class TotalTasksDetailsModal {
   todos = input.required<Todo[]>();
-  onClose = output<Event>();
+  onClose = output<void>();
 
-  totalTasks(): number {
+  protected isClosing = signal(false);
+
+  protected closeTodosDetails(event: Event) {
+    // VERY IMPORTANT:
+    // Prevent the click from reaching the parent .stat
+    event.stopPropagation();
+    // Don't start the animation twice
+    if (this.isClosing()) {
+      return;
+    }
+
+    this.isClosing.set(true);
+    // Wait for the CSS animation to finish
+    setTimeout(() => {
+      this.onClose.emit();
+    }, 200);
+  }
+
+  protected totalTasks(): number {
     return this.todos().length;
   }
 
-  completedTasks() {
+  protected completedTasks() {
     return this.todos().filter((todo) => todo.status === 'completed');
   }
 
-  pendingTasks() {
+  protected pendingTasks() {
     return this.todos().filter((todo) => todo.status === 'pending');
   }
 
-  overdueTodos() {
+  protected overdueTodos() {
     return this.todos()
       .filter((todo) => todo.duedate.getTime() <= Date.now())
       .filter((todo) => todo.status !== 'completed');
