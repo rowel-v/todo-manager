@@ -10,12 +10,13 @@ import { TodoDetail } from '../tasks/todo-detail/todo-detail';
 import { formatDateTime } from '../../shared/utils/date-utils';
 import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-details-modal';
 import { TasksStatusCard } from "./tasks-status-card/tasks-status-card";
+import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
 
 @Component({
   selector: 'app-overview',
-  imports: [MatIconModule, RouterLink, A11yModule, TotalTasksDetailsModal, TasksStatusCard],
+  imports: [MatIconModule, RouterLink, A11yModule, TotalTasksDetailsModal, TasksStatusCard, PendingTasksDetailsModal],
   templateUrl: './overview.html',
   styles: ``,
 })

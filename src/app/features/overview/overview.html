@@ -24,6 +24,9 @@
       [description]="'Tasks waiting to start<'"
       (click)="openModalTodosDetailsFlag('pending')"
     >
+    @if (todosDetailsFlag() === 'pending') {
+      <app-pending-tasks-details-modal [todos]="todos()" (closed)="todosDetailsFlag.set(null)"></app-pending-tasks-details-modal>
+    }
     </app-tasks-status-card>
 
     <!-- In Progress -->
