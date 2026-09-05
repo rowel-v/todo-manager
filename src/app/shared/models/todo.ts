@@ -6,7 +6,7 @@ export interface Todo {
   name: string;
   description?: string;
   priority: TodoPriority;
-  status: TodoStatus;
+  status: TodoStatus; 
   duedate: Date;
   createdAt: Date;
   updatedAt: Date;

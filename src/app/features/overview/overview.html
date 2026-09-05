@@ -4,62 +4,47 @@
     class="stats stats-vertical w-full bg-base-100 shadow-sm md:stats-horizontal shrink-0 overflow-visible"
   >
     <!-- Total -->
-    <div
-      class="stat relative border border-base-200 transition hover:bg-blue-100 cursor-pointer"
+    <app-tasks-status-card
+      [icon]="'assignment'"
+      [title]="'Total Tasks'"
+      [value]="totalTasks()"
+      [description]="'All your tasks'"
       (click)="openModalTodosDetailsFlag('total')"
     >
-      <div class="stat-figure text-primary">
-        <mat-icon>check_circle</mat-icon>
-      </div>
-
-      <div class="stat-title">Total Tasks</div>
-      <div class="stat-value py-2">{{ totalTasks() }}</div>
-      <div class="stat-desc">All your tasks</div>
-
       @if (todosDetailsFlag() === 'total') {
-        <app-total-tasks-details-modal [todos]="todos()" (onClose)="todosDetailsFlag.set(null)" />
+        <app-total-tasks-details-modal [todos]="todos()" (closed)="todosDetailsFlag.set(null)" />
       }
-    </div>
+    </app-tasks-status-card>
 
     <!-- Pending -->
-    <div class="stat">
-      <div class="stat-figure text-warning">
-        <mat-icon>schedule</mat-icon>
-      </div>
-
-      <div class="stat-title">Pending</div>
-      <div class="stat-value">{{ totalPendingTasks() }}</div>
-      <div class="stat-desc">Tasks waiting to start</div>
-    </div>
+    <app-tasks-status-card
+      [icon]="'schedule'"
+      [title]="'Pending'"
+      [value]="totalPendingTasks()"
+      [description]="'Tasks waiting to start<'"
+      (click)="openModalTodosDetailsFlag('pending')"
+    >
+    </app-tasks-status-card>
 
     <!-- In Progress -->
-    <div class="stat">
-      <div class="stat-figure text-info">
-        <mat-icon>pending</mat-icon>
-      </div>
-
-      <div class="stat-title">In Progress</div>
-      <div class="stat-value">
-        {{ totalInProgressTasks() }}
-      </div>
-
-      <div class="stat-desc">Currently working on</div>
-    </div>
+    <app-tasks-status-card
+      [icon]="'pending'"
+      [title]="'In Progress'"
+      [value]="totalInProgressTasks()"
+      [description]="'Currently working on'"
+      (click)="openModalTodosDetailsFlag('in_progress')"
+    >
+    </app-tasks-status-card>
 
     <!-- Completed -->
-    <div class="stat">
-      <div class="stat-figure text-success">
-        <mat-icon>task_alt</mat-icon>
-      </div>
-
-      <div class="stat-title">Completed</div>
-
-      <div class="stat-value">
-        {{ totalCompletedTasks() }}
-      </div>
-
-      <div class="stat-desc">{{ completionRate() }}% completion rate</div>
-    </div>
+    <app-tasks-status-card
+      [icon]="'task_alt'"
+      [title]="'Completed'"
+      [value]="totalCompletedTasks()"
+      [description]="completionRate() + '% completion rate'"
+      (click)="openModalTodosDetailsFlag('completed')"
+    >
+    </app-tasks-status-card>
   </div>
 
   <div class="flex flex-col gap-6 overflow-y-auto">

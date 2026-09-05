@@ -1,0 +1,13 @@
+<div
+  class="stat relative border border-base-200 transition hover:bg-blue-100 cursor-pointer"
+>
+  <div class="stat-figure text-primary">
+    <mat-icon>{{ icon() }}</mat-icon>
+  </div>
+
+  <div class="stat-title">{{ title() }}</div>
+  <div class="stat-value py-2">{{ value() }}</div>
+  <div class="stat-desc">{{ description() }}</div>
+
+  <ng-content />
+</div>

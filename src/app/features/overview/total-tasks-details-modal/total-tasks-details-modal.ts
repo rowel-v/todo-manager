@@ -10,15 +10,10 @@ import { Todo } from '../../../shared/models/todo';
 })
 export class TotalTasksDetailsModal {
   todos = input.required<Todo[]>();
-  onClose = output<void>();
-
+  closed = output<void>();
   protected isClosing = signal(false);
 
-  protected closeTodosDetails(event: Event) {
-    // VERY IMPORTANT:
-    // Prevent the click from reaching the parent .stat
-    event.stopPropagation();
-    // Don't start the animation twice
+  protected closeModal() {
     if (this.isClosing()) {
       return;
     }
@@ -26,19 +21,19 @@ export class TotalTasksDetailsModal {
     this.isClosing.set(true);
     // Wait for the CSS animation to finish
     setTimeout(() => {
-      this.onClose.emit();
+      this.closed.emit();
     }, 200);
   }
 
-  protected totalTasks(): number {
+  protected totalTodosCount(): number {
     return this.todos().length;
   }
 
-  protected completedTasks() {
+  protected completedTodos() {
     return this.todos().filter((todo) => todo.status === 'completed');
   }
 
-  protected pendingTasks() {
+  protected pendingTodos() {
     return this.todos().filter((todo) => todo.status === 'pending');
   }
 
