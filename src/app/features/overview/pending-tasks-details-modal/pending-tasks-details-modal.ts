@@ -1,12 +1,13 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { Todo } from '../../../shared/models/todo';
 import { MatIconModule } from '@angular/material/icon';
+import { TodoDetailsList } from './todo-details-list/todo-details-list';
 
 type Selection = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
 
 @Component({
   selector: 'app-pending-tasks-details-modal',
-  imports: [MatIconModule],
+  imports: [MatIconModule, TodoDetailsList],
   templateUrl: './pending-tasks-details-modal.html',
   styles: ``,
 })
@@ -21,7 +22,7 @@ export class PendingTasksDetailsModal {
   isClosing = signal(false);
 
   // Controls the animation when navigating into a detail section.
-  protected isEnteringDetail = signal(false);
+  // protected isEnteringDetail = signal(false);
 
   // Controls the animation when returning to the task breakdown.
   protected isReturning = signal(false);
@@ -57,15 +58,9 @@ export class PendingTasksDetailsModal {
   });
 
   // Updates the selected category and determines the navigation animation.
-  setCurrentSelected(select: Selection) {
-    const previous = this.currentSelected();
-
-    // Animate from right when entering a detail section.
-    this.isEnteringDetail.set(previous === null && select !== null);
-
+  setCurrentSelected(select: Selection) { 
     // Animate from left when returning to the task breakdown.
-    this.isReturning.set(previous !== null && select === null);
-
+    this.isReturning.set(this.currentSelected !== null && select === null);
     this.currentSelected.set(select);
   }
 

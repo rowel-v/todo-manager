@@ -18,7 +18,7 @@
         <mat-icon
           class="cursor-pointer rounded hover:bg-base-200"
           (click)="closeModal()"
-          [class.rotate-in-center]="isReturning()"
+          [class.rotate-in-center]="true"
         >
           close
         </mat-icon>
@@ -26,7 +26,7 @@
         <mat-icon
           class="cursor-pointer rounded hover:bg-base-200"
           (click)="setCurrentSelected(null)"
-          [class.rotate-in-center]="isEnteringDetail()"
+          [class.rotate-in-center]="true"
         >
           arrow_back
         </mat-icon>
@@ -37,89 +37,45 @@
     <div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
       @switch (currentSelected()) {
         @case ('pending') {
-          @for (todo of pendingTodos(); track todo.id) {
-            <div
-              class="flex items-center gap-3 rounded-lg border border-base-200 p-2.5 transition-colors duration-200 hover:bg-base-200"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="shrink-0 text-warning">schedule</mat-icon>
-              <p class="truncate text-sm font-medium">{{ todo.name }}</p>
-            </div>
-          } @empty {
-            <div
-              class="flex h-full flex-col items-center justify-center gap-2 text-center"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="text-4xl text-success">check_circle</mat-icon>
-
-              <p class="text-sm font-semibold">No pending tasks</p>
-
-              <p class="text-xs text-base-content/60">All your tasks are completed.</p>
-            </div>
-          }
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="pendingTodos()"
+            icon="schedule"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No pending tasks"
+            descriptionWhenEmpty="All your tasks are completed."
+          />
         }
 
         @case ('high_priority') {
-          @for (todo of pendingHighPriority(); track todo.id) {
-            <div
-              class="flex items-center gap-3 rounded-lg border border-base-200 p-2.5 transition-colors duration-200 hover:bg-base-200"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="shrink-0 text-warning">today</mat-icon>
-              <p class="truncate text-sm font-medium">{{ todo.name }}</p>
-            </div>
-          } @empty {
-            <div
-              class="flex h-full flex-col items-center justify-center gap-2 text-center"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="text-4xl text-success">check_circle</mat-icon>
-              <p class="text-sm font-semibold">No high-priority tasks</p>
-              <p class="text-xs text-base-content/60">Nothing urgent needs your attention.</p>
-            </div>
-          }
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="pendingHighPriority()"
+            icon="priority_high"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No high-priority tasks"
+            descriptionWhenEmpty="Nothing urgent needs your attention."
+          />
         }
         @case ('due_today') {
-          @for (todo of pendingDueToday(); track todo.id) {
-            <div
-              class="flex items-center gap-3 rounded-lg border border-base-200 p-2.5 transition-colors duration-200 hover:bg-base-200"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="shrink-0 text-warning">schedule</mat-icon>
-              <p class="truncate text-sm font-medium">{{ todo.name }}</p>
-            </div>
-          } @empty {
-            <div
-              class="flex h-full flex-col items-center justify-center gap-2 text-center"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="text-4xl text-success">check_circle</mat-icon>
-              <p class="text-sm font-semibold">No tasks due today</p>
-              <p class="text-xs text-base-content/60">You're all caught up for today.</p>
-            </div>
-          }
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="pendingDueToday()"
+            icon="today"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No tasks due today"
+            descriptionWhenEmpty="You're all caught up for today."
+          />
         }
         @case ('overdue') {
-          @for (todo of overdueTodos(); track todo.id) {
-            <div
-              class="flex items-center gap-3 rounded-lg border border-base-200 p-2.5 transition-colors duration-200 hover:bg-base-200"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="shrink-0 text-warning">warning</mat-icon>
-              <p class="truncate text-sm font-medium">{{ todo.name }}</p>
-            </div>
-          } @empty {
-            <div
-              class="flex h-full flex-col items-center justify-center gap-2 text-center"
-              [class.slide-in-right]="isEnteringDetail()"
-            >
-              <mat-icon class="text-4xl text-success">check_circle</mat-icon>
-
-              <p class="text-sm font-semibold">No overdue tasks</p>
-
-              <p class="text-xs text-base-content/60">You're up to date with your tasks.</p>
-            </div>
-          }
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="overdueTodos()"
+            icon="warning"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No overdue tasks"
+            descriptionWhenEmpty="You're up to date with your tasks."
+          />
         }
         @default {
           <!-- Task breakdown -->
