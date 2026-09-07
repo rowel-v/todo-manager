@@ -1,74 +1,130 @@
-<!--Invisible backdrop, Covers the entire viewport and catches clicks outside the modal.Since it has no background color, it remains visually invisible.-->
+<!-- Invisible backdrop, covers the entire viewport and catches clicks outside the modal. -->
 <div class="fixed inset-0 z-9998 cursor-default" (click)="closeModal()"></div>
 
-<!--Modal container, Positioned beside the Total Tasks stat.-->
+<!-- Modal container, positioned beside the Total Tasks stat. -->
 <div
   class="absolute left-full top-0 z-9999 ml-2 cursor-default"
   [class.scale-in-tl]="!isClosing()"
   [class.scale-out-tl]="isClosing()"
 >
-  <!--Modal content, Contains the actual Total Tasks information.-->
-  <div class="w-80 rounded-xl border border-base-300 bg-base-100 p-5 shadow-xl">
+  <!-- Modal content -->
+  <div class="flex flex-col w-80 h-72 rounded-xl border border-base-300 bg-base-100 p-5 shadow-xl">
     <!-- Header -->
     <div class="mb-4 flex justify-between">
-      <!-- Modal title -->
-      <div>
-        <h2 class="text-lg font-bold">Total Tasks</h2>
-      </div>
-
-      <!--Close button-->
-      <mat-icon class="cursor-pointer hover:bg-gray-200" (click)="closeModal()"> close </mat-icon>
+      <h2 class="text-lg font-bold">Total Tasks</h2>
+      <!-- Close button -->
+      @if (selectedCategory() === null) {
+        <mat-icon
+          class="cursor-pointer rounded hover:bg-base-200"
+          [class.rotate-in-center]="true"
+          (click)="closeModal()"
+        >
+          close
+        </mat-icon>
+      } @else {
+        <mat-icon
+          class="cursor-pointer rounded hover:bg-base-200"
+          [class.rotate-in-center]="true"
+          (click)="selectCategory(null)"
+        >
+          arrow_back
+        </mat-icon>
+      }
     </div>
 
-    <!--Task breakdown, Displays the number of tasks for each status/category.-->
-    <div class="space-y-3">
-      <!-- Completed tasks -->
-      <div class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200">
-        <div class="flex items-center gap-2">
-          <mat-icon class="text-success">check_circle</mat-icon>
-          <span>Completed</span>
-        </div>
-
-        <span class="font-semibold">
-          {{ completedTodos().length }}
-        </span>
-      </div>
-
-      <!-- Pending tasks -->
-      <div class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200">
-        <div class="flex items-center gap-2">
-          <mat-icon class="text-warning">pending</mat-icon>
-          <span>Pending</span>
-        </div>
-
-        <span class="font-semibold">
-          {{ pendingTodos().length }}
-        </span>
-      </div>
-
-      <!-- Overdue tasks -->
-      <div class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200">
-        <div class="flex items-center gap-2">
-          <mat-icon class="text-error">warning</mat-icon>
-          <span>Overdue</span>
-        </div>
-
-        <span class="font-semibold">
-          {{ overdueTodos().length }}
-        </span>
-      </div>
-
-      <!-- Upcoming tasks -->
-      <div class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200">
-        <div class="flex items-center gap-2">
-          <mat-icon class="text-info">event</mat-icon>
-          <span>Upcoming</span>
-        </div>
-
-        <span class="font-semibold">
-          {{ upcomingTodos().length }}
-        </span>
-      </div>
+    <!-- Content -->
+    <div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+      @switch (selectedCategory()) {
+        @case ('completed') {
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="completedTodos()"
+            icon="check_circle"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No completed tasks"
+            descriptionWhenEmpty="You haven't completed any tasks yet."
+          />
+        }
+        @case ('pending') {
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="pendingTodos()"
+            icon="pending"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No pending tasks"
+            descriptionWhenEmpty="All your tasks are completed."
+          />
+        }
+        @case ('overdue') {
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="overdueTodos()"
+            icon="warning"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No overdue tasks"
+            descriptionWhenEmpty="You're all caught up with your tasks."
+          />
+        }
+        @case ('upcoming') {
+          <app-todo-details-list
+            [isEnteringDetail]="true"
+            [todos]="upcomingTodos()"
+            icon="event"
+            iconWhenEmpty="check_circle"
+            titleWhenEmpty="No upcoming tasks"
+            descriptionWhenEmpty="You have no tasks scheduled for the future."
+          />
+        }
+        @default {
+          <!-- Task breakdown -->
+          <div class="space-y-3" [class.slide-in-left]="isReturning()">
+            <!-- Total completed tasks -->
+            <div
+              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              (click)="selectCategory('completed')"
+            >
+              <div class="flex items-center gap-2">
+                <mat-icon class="text-success">check_circle</mat-icon>
+                <span>Completed</span>
+              </div>
+              <span class="font-semibold">{{ completedTodos().length }} </span>
+            </div>
+            <!-- Total pending tasks -->
+            <div
+              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              (click)="selectCategory('pending')"
+            >
+              <div class="flex items-center gap-2">
+                <mat-icon class="text-warning">pending</mat-icon>
+                <span>Pending</span>
+              </div>
+              <span class="font-semibold">{{ pendingTodos().length }}</span>
+            </div>
+            <!-- Total overdue tasks -->
+            <div
+              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              (click)="selectCategory('overdue')"
+            >
+              <div class="flex items-center gap-2">
+                <mat-icon class="text-error">warning</mat-icon>
+                <span>Overdue</span>
+              </div>
+              <span class="font-semibold">{{ overdueTodos().length }}</span>
+            </div>
+            <!-- Total upcoming tasks -->
+            <div
+              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              (click)="selectCategory('upcoming')"
+            >
+              <div class="flex items-center gap-2">
+                <mat-icon class="text-info">event</mat-icon>
+                <span>Upcoming</span>
+              </div>
+              <span class="font-semibold">{{ upcomingTodos().length }}</span>
+            </div>
+          </div>
+        }
+      }
     </div>
   </div>
 </div>

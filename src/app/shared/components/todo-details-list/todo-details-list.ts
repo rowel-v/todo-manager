@@ -1,5 +1,5 @@
 import { Component, input, signal } from '@angular/core';
-import { Todo } from '../../../../shared/models/todo';
+import { Todo } from '../../models/todo';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({

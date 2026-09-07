@@ -1,7 +1,7 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { Todo } from '../../../shared/models/todo';
 import { MatIconModule } from '@angular/material/icon';
-import { TodoDetailsList } from './todo-details-list/todo-details-list';
+import { TodoDetailsList } from '../../../shared/components/todo-details-list/todo-details-list';
 
 type TaskCategory = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
 
