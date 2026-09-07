@@ -24,9 +24,9 @@
       [description]="'Tasks waiting to start<'"
       (click)="openModalTodosDetailsFlag('pending')"
     >
-    @if (todosDetailsFlag() === 'pending') {
-      <app-pending-tasks-details-modal [todos]="todos()" (closed)="todosDetailsFlag.set(null)"></app-pending-tasks-details-modal>
-    }
+      @if (todosDetailsFlag() === 'pending') {
+        <app-pending-tasks-details-modal [todos]="todos()" (closed)="todosDetailsFlag.set(null)" />
+      }
     </app-tasks-status-card>
 
     <!-- In Progress -->
@@ -37,6 +37,12 @@
       [description]="'Currently working on'"
       (click)="openModalTodosDetailsFlag('in_progress')"
     >
+      @if (todosDetailsFlag() === 'in_progress') {
+        <app-inprogress-tasks-details-modal
+          [todos]="todos()"
+          (closed)="todosDetailsFlag.set(null)"
+        />
+      }
     </app-tasks-status-card>
 
     <!-- Completed -->

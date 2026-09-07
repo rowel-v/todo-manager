@@ -5,18 +5,25 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateTodoForm } from '../tasks/create-todo-form/create-todo-form';
 import { RouterLink } from '@angular/router';
 import { Todo } from '../../shared/models/todo';
-import { A11yModule } from '@angular/cdk/a11y';
 import { TodoDetail } from '../tasks/todo-detail/todo-detail';
 import { formatDateTime } from '../../shared/utils/date-utils';
 import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-details-modal';
-import { TasksStatusCard } from "./tasks-status-card/tasks-status-card";
+import { TasksStatusCard } from './tasks-status-card/tasks-status-card';
 import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
+import { InprogressTasksDetailsModal } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
 
 @Component({
   selector: 'app-overview',
-  imports: [MatIconModule, RouterLink, A11yModule, TotalTasksDetailsModal, TasksStatusCard, PendingTasksDetailsModal],
+  imports: [
+    MatIconModule,
+    RouterLink,
+    TotalTasksDetailsModal,
+    TasksStatusCard,
+    PendingTasksDetailsModal,
+    InprogressTasksDetailsModal,
+  ],
   templateUrl: './overview.html',
   styles: ``,
 })
@@ -24,7 +31,7 @@ export class Overview {
   private readonly todoService = inject(TodoService);
   protected readonly todos: Signal<Todo[]> = this.todoService.todos;
   protected selectedTodo = signal<Todo | null>(null);
-  protected readonly formatDateTime: (d:Date) => string = formatDateTime;
+  protected readonly formatDateTime: (d: Date) => string = formatDateTime;
   private readonly todoFormDialog = inject(MatDialog);
   protected modalTodosDetails: TodosDetailsFlag = null;
   protected todosDetailsFlag = signal<TodosDetailsFlag>(null);
