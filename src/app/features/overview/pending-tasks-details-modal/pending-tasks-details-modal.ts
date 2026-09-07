@@ -3,7 +3,7 @@ import { Todo } from '../../../shared/models/todo';
 import { MatIconModule } from '@angular/material/icon';
 import { TodoDetailsList } from './todo-details-list/todo-details-list';
 
-type Selection = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
+type TaskCategory = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
 
 @Component({
   selector: 'app-pending-tasks-details-modal',
@@ -12,56 +12,36 @@ type Selection = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
   styles: ``,
 })
 export class PendingTasksDetailsModal {
-  // Input todos from the parent component.
-  todos = input.required<Todo[]>();
-
-  // Output event used to notify the parent when the modal is closed.
-  closed = output<void>();
-
-  // Controls the modal closing animation.
-  isClosing = signal(false);
-
-  // Controls the animation when navigating into a detail section.
-  // protected isEnteringDetail = signal(false);
-
-  // Controls the animation when returning to the task breakdown.
-  protected isReturning = signal(false);
-
-  // Stores the currently selected task category.
-  protected currentSelected = signal<Selection>(null);
-
-  // Gets all pending todos.
+  todos = input.required<Todo[]>(); // Input todos from the parent component.
   protected pendingTodos = computed(() => this.todos().filter((t) => t.status === 'pending'));
-
   // Gets pending todos with high priority.
   protected pendingHighPriority = computed(() =>
     this.pendingTodos().filter((t) => t.priority === 'high'),
   );
-
   // Gets pending todos that are due today.
   protected pendingDueToday = computed(() => {
     const today = new Date().toDateString();
-
     return this.pendingTodos().filter((t) => {
       return new Date(t.duedate).toDateString() === today;
     });
   });
-
   // Gets overdue todos that are not completed.
   protected overdueTodos = computed(() => {
     const startOfDay = new Date();
     startOfDay.setHours(0, 0, 0, 0);
-
     return this.todos()
-      .filter((t) => t.status != 'completed')
+      .filter((t) => t.status !== 'completed')
       .filter((t) => new Date(t.duedate) < startOfDay);
   });
-
+  closed = output<void>(); // used to notify the parent when the modal is closed.
+  protected isClosing = signal(false); // Controls the modal closing animation.
+  protected isReturning = signal(false); // for animation when returning to the task breakdown.
+  protected selectedCategory = signal<TaskCategory>(null); // Stores the currently selected task category.
   // Updates the selected category and determines the navigation animation.
-  setCurrentSelected(select: Selection) { 
+  protected selectCategory(taskCategory: TaskCategory) {
     // Animate from left when returning to the task breakdown.
-    this.isReturning.set(this.currentSelected !== null && select === null);
-    this.currentSelected.set(select);
+    this.isReturning.set(this.selectedCategory() !== null && taskCategory === null);
+    this.selectedCategory.set(taskCategory);
   }
 
   // Starts the modal closing animation before notifying the parent.

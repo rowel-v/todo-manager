@@ -14,7 +14,6 @@ export class TodoDetailsList {
   iconWhenEmpty = input.required<string>();
   titleWhenEmpty = input.required<string>();
   descriptionWhenEmpty = input.required<string>();
-  isEnteringDetail = input.required<boolean>();
-
+  isEnteringDetail = input.required<boolean>(); // for animation when navigate to specific todo
   selectedTodo = signal<Todo | null>(null);
 }

@@ -12,21 +12,20 @@
     <!-- Header -->
     <div class="mb-4 flex justify-between">
       <h2 class="text-lg font-bold">Pending Tasks</h2>
-
       <!-- Close button -->
-      @if (currentSelected() === null) {
+      @if (selectedCategory() === null) {
         <mat-icon
           class="cursor-pointer rounded hover:bg-base-200"
-          (click)="closeModal()"
           [class.rotate-in-center]="true"
+          (click)="closeModal()"
         >
           close
         </mat-icon>
       } @else {
         <mat-icon
           class="cursor-pointer rounded hover:bg-base-200"
-          (click)="setCurrentSelected(null)"
           [class.rotate-in-center]="true"
+          (click)="selectCategory(null)"
         >
           arrow_back
         </mat-icon>
@@ -35,7 +34,7 @@
 
     <!-- Content -->
     <div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
-      @switch (currentSelected()) {
+      @switch (selectedCategory()) {
         @case ('pending') {
           <app-todo-details-list
             [isEnteringDetail]="true"
@@ -46,7 +45,6 @@
             descriptionWhenEmpty="All your tasks are completed."
           />
         }
-
         @case ('high_priority') {
           <app-todo-details-list
             [isEnteringDetail]="true"
@@ -83,61 +81,46 @@
             <!-- Total pending tasks -->
             <div
               class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
-              (click)="setCurrentSelected('pending')"
+              (click)="selectCategory('pending')"
             >
               <div class="flex items-center gap-2">
                 <mat-icon class="text-warning">schedule</mat-icon>
                 <span>Pending</span>
               </div>
-
-              <span class="font-semibold">
-                {{ pendingTodos().length }}
-              </span>
+              <span class="font-semibold">{{ pendingTodos().length }} </span>
             </div>
-
             <!-- High-priority pending tasks -->
             <div
               class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
-              (click)="setCurrentSelected('high_priority')"
+              (click)="selectCategory('high_priority')"
             >
               <div class="flex items-center gap-2">
                 <mat-icon class="text-error">priority_high</mat-icon>
                 <span>High Priority</span>
               </div>
-
-              <span class="font-semibold">
-                {{ pendingHighPriority().length }}
-              </span>
+              <span class="font-semibold">{{ pendingHighPriority().length }}</span>
             </div>
-
             <!-- Pending tasks due today -->
             <div
               class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
-              (click)="setCurrentSelected('due_today')"
+              (click)="selectCategory('due_today')"
             >
               <div class="flex items-center gap-2">
                 <mat-icon class="text-info">today</mat-icon>
                 <span>Due Today</span>
               </div>
-
-              <span class="font-semibold">
-                {{ pendingDueToday().length }}
-              </span>
+              <span class="font-semibold">{{ pendingDueToday().length }}</span>
             </div>
-
             <!-- Overdue pending tasks -->
             <div
               class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
-              (click)="setCurrentSelected('overdue')"
+              (click)="selectCategory('overdue')"
             >
               <div class="flex items-center gap-2">
                 <mat-icon class="text-error">warning</mat-icon>
                 <span>Overdue</span>
               </div>
-
-              <span class="font-semibold">
-                {{ overdueTodos().length }}
-              </span>
+              <span class="font-semibold">{{ overdueTodos().length }}</span>
             </div>
           </div>
         }
