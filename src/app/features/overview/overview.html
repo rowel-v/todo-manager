@@ -53,6 +53,12 @@
       [description]="completionRate() + '% completion rate'"
       (click)="openModalTodosDetailsFlag('completed')"
     >
+      @if (todosDetailsFlag() === 'completed') {
+        <app-completed-tasks-details-modal
+          [todos]="todos()"
+          (closed)="todosDetailsFlag.set(null)"
+        />
+      }
     </app-tasks-status-card>
   </div>
 

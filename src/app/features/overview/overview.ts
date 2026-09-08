@@ -11,6 +11,7 @@ import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-
 import { TasksStatusCard } from './tasks-status-card/tasks-status-card';
 import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
 import { InprogressTasksDetailsModal } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
+import { CompletedTasksDetailsModal } from './completed-tasks-details-modal/completed-tasks-details-modal';
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
 
@@ -23,6 +24,7 @@ type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null
     TasksStatusCard,
     PendingTasksDetailsModal,
     InprogressTasksDetailsModal,
+    CompletedTasksDetailsModal,
   ],
   templateUrl: './overview.html',
   styles: ``,

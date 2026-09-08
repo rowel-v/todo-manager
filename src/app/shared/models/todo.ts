@@ -10,4 +10,5 @@ export interface Todo {
   duedate: Date;
   createdAt: Date;
   updatedAt: Date;
+  completedAt?: Date;
 }
