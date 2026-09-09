@@ -2,21 +2,36 @@
   <!-- Sidebar -->
   <mat-sidenav #sidenav mode="side" opened class="w-52!">
     <div class="flex flex-row p-6 justify-between">
-      <h1 class="text-xl font-bold">Todo App</h1>
+      <h1 class="text-xl font-bold">My Tasks</h1>
     </div>
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/overview" (click)="currentSideNav = 'home'">
+      <a
+        mat-list-item
+        routerLink="/overview"
+        class="rounded-lg!"
+        (click)="currentSideNav.set('home')"
+      >
         <mat-icon matListItemIcon>home</mat-icon>
         <span matListItemTitle>Home</span>
       </a>
 
-      <a mat-list-item routerLink="/tasks" (click)="currentSideNav = 'tasks'">
+      <a
+        mat-list-item
+        routerLink="/tasks"
+        class="rounded-lg!"
+        (click)="currentSideNav.set('tasks')"
+      >
         <mat-icon matListItemIcon>check_circle</mat-icon>
         <span matListItemTitle>Tasks</span>
       </a>
 
-      <a mat-list-item routerLink="/settings" (click)="currentSideNav = 'settings'">
+      <a
+        mat-list-item
+        routerLink="/settings"
+        class="rounded-lg!"
+        (click)="currentSideNav.set('settings')"
+      >
         <mat-icon matListItemIcon>settings</mat-icon>
         <span matListItemTitle>Settings</span>
       </a>
@@ -26,39 +41,29 @@
   <!-- Main content -->
   <mat-sidenav-content class="flex! flex-col! h-full! overflow-hidden!">
     <!-- Header container-->
-    <div class="px-6 pt-6 w-full shrink-0">
-      <div class="overflow-hidden flex flex-col">
-        <div class="flex flex-row items-center gap-6">
-          <button
-            mat-icon-button
-            (click)="sidenav.toggle(); openSideNav = !openSideNav"
-            class="flex! cursor-pointer"
-          >
-            @if (openSideNav) {
-              <mat-icon>menu</mat-icon>
-            } @else {
-              <mat-icon>close</mat-icon>
-            }
-          </button>
+    <div class="flex flex-row px-6 pt-6 w-full shrink-0 overflow-hidden items-center gap-6 justify-between">
 
-          @if (currentSideNav === 'home') {
-            <h1 class="text-3xl font-bold">Good morning!</h1>
-          }
-
-          @if (currentSideNav === 'tasks') {
-            <h1 class="text-3xl font-bold">Tasks</h1>
-          }
+        <div class="flex flex-col">
+          <div class="flex flex-row gap-4 items-center">
+            <button
+              mat-icon- 
+              (click)="sidenav.toggle(); openSideNav.set(!openSideNav())"
+              class="flex! cursor-pointer"
+            >
+              <mat-icon class="rotate-in-center"
+                >{{ openSideNav() ? 'menu' : 'close' }} /></mat-icon
+              >
+            </button>
+            <h1 class="text-2xl font-bold">{{ title() }}</h1>
+          </div>
+          <p class="mt-1 text-gray-500 ps-10">{{ description() }}</p>
         </div>
 
-        @if (currentSideNav === 'home') {
-          <p class="mt-1 text-gray-500 ps-12">Here's your task overview for today.</p>
-        }
-
-        @if (currentSideNav === 'tasks') {
-          <p class="mt-1 text-gray-500 ps-12">Manage your todos and stay organized.</p>
-        }
-      </div>
+        <button mat-icon-button aria-label="Profile" class="w-16! h-16! mr-10">
+          <mat-icon class="text-5xl! w-12! h-12!">account_circle</mat-icon>
+        </button>
     </div>
+
     <div class="min-h-0 flex-1 overflow-y-auto">
       <router-outlet />
     </div>

@@ -4,6 +4,7 @@
 
 @plugin 'daisyui';
 
+/* Animations */
 @keyframes scale-in-tl {
   0% {
     transform: scale(0);
@@ -30,22 +31,12 @@
   }
 }
 
-.scale-in-tl {
-  animation: scale-in-tl 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.scale-out-tl {
-  animation: scale-out-tl 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-}
-
 @keyframes slide-in-right {
   0% {
-    -webkit-transform: translateX(1000px);
     transform: translateX(1000px);
     opacity: 0;
   }
   100% {
-    -webkit-transform: translateX(0);
     transform: translateX(0);
     opacity: 1;
   }
@@ -53,23 +44,13 @@
 
 @keyframes slide-in-left {
   0% {
-    -webkit-transform: translateX(-1000px);
     transform: translateX(-1000px);
     opacity: 0;
   }
   100% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
     opacity: 1;
+    transform: translateX(0);
   }
-}
-
-.slide-in-right {
-  animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.slide-in-left {
-  animation: slide-in-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes rotate-in-center {
@@ -81,10 +62,6 @@
     transform: rotate(0);
     opacity: 1;
   }
-}
-
-.rotate-in-center {
-  animation: rotate-in-center 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 @keyframes scale-in-tr {
@@ -100,10 +77,6 @@
   }
 }
 
-.scale-in-tr {
-  animation: scale-in-tr 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
 @keyframes scale-out-tr {
   0% {
     transform: scale(1);
@@ -115,6 +88,30 @@
     transform-origin: 100% 0%;
     opacity: 1;
   }
+}
+
+.scale-in-tl {
+  animation: scale-in-tl 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.scale-out-tl {
+  animation: scale-out-tl 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.rotate-in-center {
+  animation: rotate-in-center 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.scale-in-tr {
+  animation: scale-in-tr 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .scale-out-tr {
