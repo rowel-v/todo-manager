@@ -1,7 +1,7 @@
 <mat-sidenav-container class="h-screen">
   <!-- Sidebar -->
   <mat-sidenav #sidenav mode="side" opened class="w-52!">
-    <div class="flex flex-row p-6 justify-between">
+    <div class="flex flex-row mx-5 mt-4 mb-2">
       <h1 class="text-xl font-bold">My Tasks</h1>
     </div>
 
@@ -38,33 +38,43 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <!-- Main content -->
+  <!-- Main content container-->
   <mat-sidenav-content class="flex! flex-col! h-full! overflow-hidden!">
     <!-- Header container-->
-    <div class="flex flex-row px-6 pt-6 w-full shrink-0 overflow-hidden items-center gap-6 justify-between">
-
-        <div class="flex flex-col">
-          <div class="flex flex-row gap-4 items-center">
-            <button
-              mat-icon- 
-              (click)="sidenav.toggle(); openSideNav.set(!openSideNav())"
-              class="flex! cursor-pointer"
-            >
-              <mat-icon class="rotate-in-center"
-                >{{ openSideNav() ? 'menu' : 'close' }} /></mat-icon
-              >
-            </button>
-            <h1 class="text-2xl font-bold">{{ title() }}</h1>
-          </div>
-          <p class="mt-1 text-gray-500 ps-10">{{ description() }}</p>
+    <div
+      class="flex flex-row mx-6 my-3 w-full shrink-0 overflow-hidden items-center gap-6 justify-between"
+    >
+      <!--Sub-header container-->
+      <div class="flex flex-col">
+        <!--Sidebar button toggle-->
+        <div class="flex flex-row gap-4 items-center">
+          <button
+            mat-icon-
+            (click)="sidenav.toggle(); openSideNav.set(!openSideNav())"
+            class="flex! cursor-pointer"
+          >
+            <mat-icon class="rotate-in-center">{{ openSideNav() ? 'menu' : 'close' }} /></mat-icon>
+          </button>
+          <!--Header label-->
+          <h1 class="text-2xl text-gray-100 font-bold">{{ title() }}</h1>
         </div>
+        <!--Header description-->
+        <p  >{{ description() }}</p>
+      </div>
 
-        <button mat-icon-button aria-label="Profile" class="w-16! h-16! mr-10">
-          <mat-icon class="text-5xl! w-12! h-12!">account_circle</mat-icon>
-        </button>
+      <!--user profile-->
+      <div class="avatar mr-10">
+        <div class="w-12 rounded-full">
+          <img
+            alt="Tailwind-CSS-Avatar-component"
+            src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"
+          />
+        </div>
+      </div>  
     </div>
 
-    <div class="min-h-0 flex-1 overflow-y-auto">
+    <!--Content-->
+    <div class="min-h-0 flex-1 overflow-y-auto mx-2">
       <router-outlet />
     </div>
   </mat-sidenav-content>
