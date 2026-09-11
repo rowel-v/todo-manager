@@ -6,6 +6,8 @@ import {
   LucideBadgeCheck,
   LucideSettings,
   LucideX,
+  LucideUser,
+  LucideLogOut,
 } from '@lucide/angular';
 
 type CurrentSidenav = 'home' | 'tasks' | 'settings';
@@ -20,14 +22,16 @@ type CurrentSidenav = 'home' | 'tasks' | 'settings';
     LucideBadgeCheck,
     LucideSettings,
     LucideX,
+    LucideUser,
+    LucideLogOut,
   ],
   templateUrl: './main-layout.html',
   styles: ``,
 })
 export class MainLayout {
-  openSideNav = signal<boolean>(true);
-  currentSideNav = signal<CurrentSidenav>('home');
-  title = computed(() => {
+  protected openSideNav = signal<boolean>(true);
+  protected currentSideNav = signal<CurrentSidenav>('home');
+  protected title = computed(() => {
     switch (this.currentSideNav()) {
       case 'home':
         return 'Good morning';
@@ -37,7 +41,7 @@ export class MainLayout {
         return 'Settings';
     }
   });
-  description = computed(() => {
+  protected description = computed(() => {
     switch (this.currentSideNav()) {
       case 'home':
         return "Here's your task overview for today.";
@@ -47,4 +51,24 @@ export class MainLayout {
         return 'Settings Description later.';
     }
   });
+  protected openedProfile = signal<boolean>(false);
+  protected closingProfile = signal<boolean>(false);
+
+  protected openProfile() {
+    this.closingProfile.set(false);
+    this.openedProfile.set(true);
+  }
+
+  protected closeProfile() {
+    if (!this.openedProfile()) {
+      return;
+    }
+
+    this.closingProfile.set(true);
+
+    setTimeout(() => {
+      this.openedProfile.set(false);
+      this.closingProfile.set(false);
+    }, 200);
+  }
 }
