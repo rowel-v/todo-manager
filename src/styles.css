@@ -1,8 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@import url('https://googleapis.com');
 
 @plugin 'daisyui';
+
+@theme {
+  --font-roboto: "Roboto", sans-serif;
+}
+
 
 /* Animations */
 @keyframes scale-in-tl {

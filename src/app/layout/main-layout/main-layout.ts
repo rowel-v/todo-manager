@@ -1,42 +1,47 @@
 import { Component, computed, signal } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
+import {
+  LucideMenu,
+  LucideHouse,
+  LucideBadgeCheck,
+  LucideSettings,
+  LucideX,
+  LucideUser,
+  LucideLogOut,
+} from '@lucide/angular';
 
 type CurrentSidenav = 'home' | 'tasks' | 'settings';
 
 @Component({
   selector: 'app-main-layout',
   imports: [
-    MatSidenavModule,
-    MatListModule,
     RouterOutlet,
-    MatIconModule,
     RouterLink,
-    MatToolbarModule,
-    MatButtonModule,
+    LucideMenu,
+    LucideHouse,
+    LucideBadgeCheck,
+    LucideSettings,
+    LucideX,
+    LucideUser,
+    LucideLogOut,
   ],
   templateUrl: './main-layout.html',
   styles: ``,
 })
 export class MainLayout {
-  openSideNav = signal<boolean>(false);
-  currentSideNav = signal<CurrentSidenav>('home');
-
-  title = computed(() => {
+  protected openSideNav = signal<boolean>(true);
+  protected currentSideNav = signal<CurrentSidenav>('home');
+  protected title = computed(() => {
     switch (this.currentSideNav()) {
       case 'home':
-        return 'Good morning!';
+        return 'Good morning';
       case 'tasks':
         return 'Tasks';
       case 'settings':
         return 'Settings';
     }
   });
-  description = computed(() => {
+  protected description = computed(() => {
     switch (this.currentSideNav()) {
       case 'home':
         return "Here's your task overview for today.";
@@ -46,4 +51,24 @@ export class MainLayout {
         return 'Settings Description later.';
     }
   });
+  protected openedProfile = signal<boolean>(false);
+  protected closingProfile = signal<boolean>(false);
+
+  protected openProfile() {
+    this.closingProfile.set(false);
+    this.openedProfile.set(true);
+  }
+
+  protected closeProfile() {
+    if (!this.openedProfile()) {
+      return;
+    }
+
+    this.closingProfile.set(true);
+
+    setTimeout(() => {
+      this.openedProfile.set(false);
+      this.closingProfile.set(false);
+    }, 200);
+  }
 }
