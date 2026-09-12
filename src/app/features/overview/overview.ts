@@ -10,7 +10,7 @@ import { formatDateTime } from '../../shared/utils/date-utils';
 import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-details-modal';
 import { TasksStatusCard } from './tasks-status-card/tasks-status-card';
 import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
-import { InprogressTasksDetailsModal } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
+import { InprogressTasksDetailsModal   } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
 import { CompletedTasksDetailsModal } from './completed-tasks-details-modal/completed-tasks-details-modal';
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
@@ -38,6 +38,8 @@ export class Overview {
   protected modalTodosDetails: TodosDetailsFlag = null;
   protected todosDetailsFlag = signal<TodosDetailsFlag>(null);
   protected isClosing = signal(false);
+
+
   protected openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
     this.todosDetailsFlag.set(currentTodosDetailsSelected);
   }

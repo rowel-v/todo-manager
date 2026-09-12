@@ -1,13 +1,21 @@
 <div
-  class="stat relative border border-base-200 transition hover:bg-blue-100 cursor-pointer"
+  class="stat relative border rounded border-base-200 transition bg-app-background-white hover:bg-app-background-hover cursor-pointer"
 >
-  <div class="stat-figure text-primary">
-    <mat-icon>{{ icon() }}</mat-icon>
+  <div class="stat-figure text-app-text-green">
+    @if (icon() === 'total') {
+      <svg lucideClipboardList></svg>
+    } @else if (icon() === 'pending') { 
+      <svg lucideClock5></svg>
+    } @else if (icon() === 'in_progress') {
+      <svg lucideCircleEllipsis></svg>
+    } @else if (icon() === 'completed') {
+      <svg lucideCircleCheck></svg>
+    }
   </div>
 
-  <div class="stat-title">{{ title() }}</div>
-  <div class="stat-value py-2">{{ value() }}</div>
-  <div class="stat-desc">{{ description() }}</div>
+  <div class="stat-title text-app-text-green">{{ title() }}</div>
+  <div class="stat-value py-2 text-app-text-green">{{ value() }}</div>
+  <div class="stat-desc text-app-text-green">{{ description() }}</div>
 
   <ng-content />
 </div>

@@ -1,13 +1,28 @@
 import { Component, computed, input, output, signal } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { Todo } from '../../../shared/models/todo';
 import { TodoDetailsList } from '../../../shared/components/todo-details-list/todo-details-list';
+import {
+  LucideX,
+  LucideArrowLeft,
+  LucideCircleCheck,
+  LucideClock5,
+  LucideTriangleAlert,
+  LucideCalendarClock,
+} from '@lucide/angular';
 type TaskCategory = 'completed' | 'pending' | 'overdue' | 'upcoming' | null;
 
 @Component({
   selector: 'app-total-tasks-details-modal',
   templateUrl: './total-tasks-details-modal.html',
-  imports: [MatIconModule, TodoDetailsList],
+  imports: [
+    TodoDetailsList,
+    LucideX,
+    LucideArrowLeft,
+    LucideCircleCheck,
+    LucideClock5,
+    LucideTriangleAlert,
+    LucideCalendarClock,
+  ],
   styles: ``,
 })
 export class TotalTasksDetailsModal {
