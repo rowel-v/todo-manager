@@ -160,13 +160,51 @@ export class TodoService {
       createdAt: new Date('2026-08-26T09:00:00Z'),
       updatedAt: new Date('2026-08-27T15:30:00Z'),
     },
+    // ─────────────────────────────────────────────
+    // Completed Today
+    // ─────────────────────────────────────────────
+    {
+      id: 15,
+      name: 'Review Angular lesson',
+      description: 'Review Angular signals, computed values, and control flow.',
+      priority: 'medium',
+      status: 'completed',
+      duedate: new Date('2026-09-13T12:00:00+08:00'),
+      createdAt: new Date('2026-09-12T09:00:00+08:00'),
+      updatedAt: new Date('2026-09-13T10:30:00+08:00'),
+    },
+
+    // ─────────────────────────────────────────────
+    // Completed This Week
+    // ─────────────────────────────────────────────
+    {
+      id: 16,
+      name: 'Fix login bug',
+      description: 'Fix the authentication issue in the login flow.',
+      priority: 'high',
+      status: 'completed',
+      duedate: new Date('2026-09-11T17:00:00+08:00'),
+      createdAt: new Date('2026-09-10T08:00:00+08:00'),
+      updatedAt: new Date('2026-09-11T16:20:00+08:00'),
+    },
+
+    {
+      id: 17,
+      name: 'Update project README',
+      description: 'Add setup instructions and API documentation.',
+      priority: 'low',
+      status: 'completed',
+      duedate: new Date('2026-09-09T18:00:00+08:00'),
+      createdAt: new Date('2026-09-08T10:00:00+08:00'),
+      updatedAt: new Date('2026-09-09T15:45:00+08:00'),
+    },
 
     // ─────────────────────────────────────────────
     // More varied cases
     // ─────────────────────────────────────────────
 
     {
-      id: 15,
+      id: 18,
       name: 'Backup project files',
       description: 'Create a backup of the current project and database.',
       priority: 'high',
@@ -176,7 +214,7 @@ export class TodoService {
       updatedAt: new Date('2026-09-04T08:00:00Z'),
     },
     {
-      id: 16,
+      id: 19,
       name: 'Refactor Todo components',
       description: 'Clean up duplicated logic and improve component responsibilities.',
       priority: 'medium',
@@ -186,7 +224,7 @@ export class TodoService {
       updatedAt: new Date('2026-09-05T09:30:00Z'),
     },
     {
-      id: 17,
+      id: 20,
       name: 'Test responsive layout',
       description: 'Verify the application on desktop, tablet, and mobile screen sizes.',
       priority: 'low',
@@ -196,7 +234,7 @@ export class TodoService {
       updatedAt: new Date('2026-09-04T15:00:00Z'),
     },
     {
-      id: 18,
+      id: 21,
       name: 'Fix modal animation',
       description: 'Make sure the modal opens and closes smoothly without layout issues.',
       priority: 'high',
@@ -206,7 +244,7 @@ export class TodoService {
       updatedAt: new Date('2026-09-04T17:40:00Z'),
     },
     {
-      id: 19,
+      id: 22,
       name: 'Add empty state',
       description: 'Display a helpful message when there are no tasks to show.',
       priority: 'low',
@@ -216,7 +254,7 @@ export class TodoService {
       updatedAt: new Date('2026-09-01T09:45:00Z'),
     },
     {
-      id: 20,
+      id: 23,
       name: 'Review application performance',
       description: 'Check unnecessary computations and optimize signal-based state.',
       priority: 'medium',
@@ -224,6 +262,50 @@ export class TodoService {
       duedate: new Date('2026-10-01T11:00:00Z'),
       createdAt: new Date('2026-09-05T08:00:00Z'),
       updatedAt: new Date('2026-09-05T08:00:00Z'),
+    },
+    {
+      id: 24,
+      name: 'Review Angular signals',
+      description: 'Practice signal, computed, and effect in Angular.',
+      priority: 'high',
+      status: 'in_progress',
+      duedate: new Date('2026-09-13T11:00:00+08:00'),
+      createdAt: new Date('2026-09-13T08:00:00+08:00'),
+      updatedAt: new Date('2026-09-13T10:00:00+08:00'),
+    },
+
+    {
+      id: 25,
+      name: 'Finish Todo modal',
+      description: 'Complete the task details modal and category navigation.',
+      priority: 'high',
+      status: 'pending',
+      duedate: new Date('2026-09-13T14:00:00+08:00'),
+      createdAt: new Date('2026-09-13T09:00:00+08:00'),
+      updatedAt: new Date('2026-09-13T09:00:00+08:00'),
+    },
+
+    {
+      id: 26,
+      name: 'Test task filters',
+      description: 'Test pending, completed, overdue, and upcoming filters.',
+      priority: 'medium',
+      status: 'pending',
+      duedate: new Date('2026-09-13T16:00:00+08:00'),
+      createdAt: new Date('2026-09-13T09:30:00+08:00'),
+      updatedAt: new Date('2026-09-13T09:30:00+08:00'),
+    },
+
+    {
+      id: 27,
+      name: 'Update Git branch',
+      description: 'Commit the latest Todo UI changes and update the feature branch.',
+      priority: 'low',
+      status: 'completed',
+      duedate: new Date('2026-09-13T10:00:00+08:00'),
+      createdAt: new Date('2026-09-13T08:30:00+08:00'),
+      updatedAt: new Date('2026-09-13T09:45:00+08:00'),
+      completedAt: new Date('2026-09-13T09:45:00+08:00'),
     },
   ]);
   todos = this.todosState.asReadonly();

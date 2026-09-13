@@ -13,6 +13,8 @@
   --color-app-text-green: #12464a;
 
   --color-app-background-hover: #d8b4fe;
+  --color-app-button-purple: #a47bd4;
+  --color-app-button-hover-gray: #8f6bb8;
 }
 
 /* Animations */
@@ -101,6 +103,61 @@
   }
 }
 
+@keyframes jello-diagonal-2 {
+  0% {
+    transform: skew(0deg 0deg);
+  }
+  30% {
+    transform: skew(-25deg -25deg);
+  }
+  40% {
+    transform: skew(15deg, 15deg);
+  }
+  50% {
+    transform: skew(-15deg, -15deg);
+  }
+  65% {
+    transform: skew(5deg, 5deg);
+  }
+  75% {
+    transform: skew(-5deg, -5deg);
+  }
+  100% {
+    transform: skew(0deg 0deg);
+  }
+}
+
+@keyframes wobble-hor-bottom {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  15% {
+    transform: translateX(-5px) rotate(-1deg);
+  }
+
+  30% {
+    transform: translateX(3px) rotate(1deg);
+  }
+
+  45% {
+    transform: translateX(-3px) rotate(-0.6deg);
+  }
+
+  60% {
+    transform: translateX(2px) rotate(0.4deg);
+  }
+
+  75% {
+    transform: translateX(-1px) rotate(-0.2deg);
+  }
+}
+
+.wobble-hor-bottom {
+  animation: wobble-hor-bottom 4s infinite both;
+}
+
 .scale-in-tl {
   animation: scale-in-tl 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
@@ -127,4 +184,14 @@
 
 .scale-out-tr {
   animation: scale-out-tr 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+/* use in circle progress */
+.hover-animate:hover {
+  animation: jello-diagonal-2 0.8s both;
+}
+
+/* use in sidebar title */
+.wobble-hor-bottom {
+  animation: wobble-hor-bottom 4s infinite both;
 }

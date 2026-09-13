@@ -9,7 +9,11 @@
     <div class="shrink-0">
       @if (openSideNav()) {
         <div class="flex items-center justify-between ps-6 pe-3 py-3">
-          <h1 class="text-[21px] font-roboto font-medium whitespace-nowrap">My Tasks</h1>
+          <h1
+            class="text-[21px] text-[#FFD580] wobble-hor-bottom font-medium whitespace-nowrap"
+          >
+            My Tasks
+          </h1>
           <button class="btn btn-square btn-ghost" (click)="openSideNav.set(false)">
             <svg lucideX></svg>
           </button>

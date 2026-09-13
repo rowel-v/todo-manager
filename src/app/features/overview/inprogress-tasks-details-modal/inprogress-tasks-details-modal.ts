@@ -1,13 +1,28 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { Todo } from '../../../shared/models/todo';
-import { MatIconModule } from '@angular/material/icon';
 import { TodoDetailsList } from '../../../shared/components/todo-details-list/todo-details-list';
+import {
+  LucideX,
+  LucideArrowLeft,
+  LucideCircleEllipsis,
+  LucideFlagTriangleRight,
+  LucideAlarmClock,
+  LucideTriangleAlert,
+} from '@lucide/angular';
 
 type TaskCategory = 'in_progress' | 'high_priority' | 'due_today' | 'overdue' | null;
 
 @Component({
   selector: 'app-inprogress-tasks-details-modal',
-  imports: [MatIconModule, TodoDetailsList],
+  imports: [
+    TodoDetailsList,
+    LucideX,
+    LucideArrowLeft,
+    LucideCircleEllipsis,
+    LucideFlagTriangleRight,
+    LucideAlarmClock,
+    LucideTriangleAlert,
+  ],
   templateUrl: './inprogress-tasks-details-modal.html',
   styles: ``,
 })

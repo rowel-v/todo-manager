@@ -1,7 +1,10 @@
-<div class="flex flex-col gap-3 bg-base-200/40 h-full" data-theme="light">
+<div
+  class="flex flex-col gap-2 bg-app-background-green text-app-background-white h-full"
+  data-theme="light"
+>
   <!-- Statistics -->
   <div
-    class="stats stats-vertical w-full gap-2 bg-app-background-green shadow-sm md:stats-horizontal shrink-0 overflow-visible"
+    class="stats stats-vertical w-full gap-2 shadow-sm md:stats-horizontal shrink-0 overflow-visible"
   >
     <!-- Total -->
     <app-tasks-status-card
@@ -62,23 +65,25 @@
     </app-tasks-status-card>
   </div>
 
-  <div class="flex flex-col gap-6 overflow-y-auto">
-    <!-- Main Dashboard -->
-    <div class="grid gap-6 lg:grid-cols-3">
+  <!-- Main Dashboard -->
+  <div class="flex flex-col overflow-y-auto">
+    <div class="grid gap-2 lg:grid-cols-3 items-start">
       <!-- Today's Tasks -->
-      <div class="card bg-base-100 shadow-sm lg:col-span-2">
+      <div class="card shadow-sm lg:col-span-2">
         <div class="card-body">
           <!-- Header -->
           <div class="flex items-center justify-between gap-4">
             <div>
               <h2 class="card-title">Today's Tasks</h2>
-
-              <p class="mt-1 text-sm text-base-content/60">Tasks you need to focus on today.</p>
+              <p class="mt-1 text-sm">Tasks you need to focus on today.</p>
             </div>
 
             @if (todaysTasks().length !== 0) {
-              <button class="btn btn-primary btn-sm" (click)="openCreateTodoFormDialog()">
-                <mat-icon>add</mat-icon>
+              <button
+                class="btn btn-sm bg-app-button-purple hover:bg-app-button-hover-gray border-none"
+                (click)="openCreateTodoFormDialog()"
+              >
+                <svg lucidePlus />
                 <span class="hidden sm:inline">Add Todo</span>
               </button>
             }
@@ -86,9 +91,9 @@
 
           <!-- Tasks -->
           <div class="mt-5 flex flex-col gap-2">
-            @for (todo of todaysTasks(); track todo.id) {
+            @for (todo of displayedTodaysTasks(); track todo.id) {
               <div
-                class="group flex items-center gap-4 rounded-xl border border-base-200 p-4 transition hover:border-primary/30 hover:bg-blue-100 cursor-pointer"
+                class="group flex items-center hover:bg-app-button-hover-gray text-app-text-white gap-4 rounded-sm p-4 transition cursor-pointer"
                 (click)="selectedTodo.set(todo); openTodoDetail()"
               >
                 <!-- Task information -->
@@ -96,13 +101,12 @@
                   <h3
                     class="truncate font-medium"
                     [class.line-through]="todo.status === 'completed'"
-                    [class.text-base-content/40]="todo.status === 'completed'"
                   >
                     {{ todo.name }}
                   </h3>
 
                   @if (todo.description) {
-                    <p class="mt-1 truncate text-sm text-base-content/50">
+                    <p class="mt-1 truncate text-sm">
                       {{ todo.description }}
                     </p>
                   }
@@ -111,124 +115,117 @@
                 <!-- Status -->
                 @switch (todo.status) {
                   @case ('pending') {
-                    <div class="badge badge-warning gap-1">
-                      <mat-icon class="text-sm!">schedule</mat-icon>
-                      Pending
-                    </div>
+                    <app-tasks-status-badge status="Pending" />
                   }
 
                   @case ('in_progress') {
-                    <div class="badge badge-info gap-1">
-                      <mat-icon class="text-sm!">pending</mat-icon>
-                      In Progress
-                    </div>
+                    <app-tasks-status-badge status="In Progress" />
                   }
 
                   @case ('completed') {
-                    <div class="badge badge-success gap-1">
-                      <mat-icon class="text-sm!">check</mat-icon>
-                      Completed
-                    </div>
+                    <app-tasks-status-badge status="Completed" />
                   }
                 }
               </div>
             } @empty {
-              <div class="flex flex-col items-center justify-center py-12 text-center">
-                <div class="mb-4 flex size-14 items-center justify-center rounded-full bg-base-200">
-                  <mat-icon class="text-base-content/40"> task_alt </mat-icon>
+              <div class="flex items-center justify-center py-12">
+                <img src="images/stick-man-thumbs-up.png" alt="No Tasks" />
+
+                <div class="flex flex-col">
+                  <p class="text-md italic">You don't have any tasks</p>
+                  <p class="text-md italic">assigned for today.</p>
+
+                  <button
+                    class="mt-4 btn btn-sm bg-app-button-purple size-fit hover:bg-app-button-hover-gray border-none"
+                    (click)="openCreateTodoFormDialog()"
+                  >
+                    <svg lucidePlus />
+                    <span class="hidden sm:inline">Add Todo</span>
+                  </button>
                 </div>
-
-                <h3 class="text-lg font-semibold">No tasks for today</h3>
-
-                <p class="mt-1 text-sm text-base-content/60">
-                  You don't have any tasks assigned for today.
-                </p>
-
-                <button class="btn btn-primary btn-sm mt-5" (click)="openCreateTodoFormDialog()">
-                  <mat-icon>add</mat-icon>
-                  Add Task
-                </button>
               </div>
             }
           </div>
 
           <!-- Footer -->
-          <div class="card-actions mt-4 justify-end">
-            <a routerLink="/tasks" class="btn btn-ghost btn-sm">
+          <div class="flex mt-4 justify-end">
+            <a
+              routerLink="/tasks"
+              class="flex gap-1 items-center hover:bg-app-button-hover-gray rounded-sm px-2"
+            >
               View all tasks
-              <mat-icon>arrow_forward</mat-icon>
+              <svg lucideArrowRight [size]="17" class="mb-1" />
             </a>
           </div>
         </div>
       </div>
 
       <!-- Progress -->
-      <div class="card bg-base-100 shadow-sm">
+      <div class="card">
         <div class="card-body">
           <h2 class="card-title">Your Progress</h2>
+          <p class="text-sm">Keep up the good work!</p>
 
-          <p class="text-sm text-base-content/60">Keep up the good work!</p>
+          <div class="h-10"></div>
 
           <!-- Radial progress -->
-          <div class="flex flex-1 flex-col items-center justify-center py-6">
+          <div class="flex flex-col items-center">
             <div
-              class="radial-progress text-primary"
-              style="--size: 10rem; --thickness: 10px"
+              class="radial-progress text-[#00D3BB] bg-[#0E6261] hover-animate cursor-grab"
+              style="--size: 10rem; --thickness: 9px"
               [style.--value]="completionRate()"
               [attr.aria-valuenow]="completionRate()"
               role="progressbar"
             >
-              <span class="text-2xl font-bold"> {{ completionRate() }}% </span>
+              <span class="text-2xl text-app-text-white font-bold"> {{ completionRate() }}% </span>
             </div>
 
-            <p class="mt-5 text-sm text-base-content/60">
-              <span class="font-semibold text-base-content">
+            <p class="mt-5 text-sm">
+              <span class="font-semibold">
                 {{ totalCompletedTasks() }}
               </span>
               of
-              <span class="font-semibold text-base-content">
+              <span class="font-semibold">
                 {{ totalTasks() }}
               </span>
               tasks completed
             </p>
           </div>
-
-          <!-- Progress footer -->
-          <div class="rounded-xl bg-base-200/60 p-4">
-            <div class="flex items-center justify-between text-sm">
-              <span class="text-base-content/60"> Overall progress </span>
-
-              <span class="font-medium"> {{ completionRate() }}% </span>
-            </div>
-
-            <progress
-              class="progress progress-primary mt-2 w-full"
-              [value]="completionRate()"
-              max="100"
-            ></progress>
+        </div>
+        <!-- Progress footer -->
+        <div class="flex flex-col mt-2">
+          <div class="flex items-center justify-between text-sm">
+            <span class=""> Overall progress </span>
+            <span class="font-medium"> {{ completionRate() }}% </span>
           </div>
+
+          <progress
+            class="progress progress-accent mt-2 w-full"
+            [value]="completionRate()"
+            max="100"
+          ></progress>
         </div>
       </div>
     </div>
 
     <!-- Upcoming Tasks -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card">
       <div class="card-body">
         <!-- Header -->
         <div class="flex items-center justify-between">
           <div>
             <h2 class="card-title">Upcoming Tasks</h2>
 
-            <p class="mt-1 text-sm text-base-content/60">What's coming next?</p>
+            <p class="mt-1 text-sm">What's coming next?</p>
           </div>
 
-          <a routerLink="/tasks" class="btn btn-ghost btn-sm"> View all </a>
+          <!-- <a routerLink="/tasks" class="btn btn-sm"> View all </a> -->
         </div>
 
         <!-- Table -->
         <div class="mt-4 overflow-x-auto">
           <table class="table">
-            <thead>
+            <thead class="text-app-text-white">
               <tr>
                 <th>Task</th>
                 <th>Priority</th>
@@ -239,34 +236,38 @@
             <tbody>
               @for (upcomingTodo of upcomingTodos(); track upcomingTodo.id) {
                 <tr
-                  class="group rounded-xl border border-base-200 transition hover:border-primary/30 hover:bg-blue-100"
+                  class="group transition hover:bg-app-button-hover-gray hover:rounded-2xl cursor-pointer"
                   (click)="selectedTodo.set(upcomingTodo); openTodoDetail()"
                 >
-                  <td>
+                  <td class="rounded-l-md">
                     <div class="font-medium">{{ upcomingTodo.name }}</div>
                   </td>
 
                   <td>
                     <div
-                      class="badge badge-md"
-                      [class.badge-success]="upcomingTodo.priority === 'low'"
-                      [class.badge-info]="upcomingTodo.priority === 'medium'"
-                      [class.badge-error]="upcomingTodo.priority === 'high'"
+                      class="font-medium"
+                      [class.text-[#68F8B5]]="upcomingTodo.priority === 'low'"
+                      [class.text-[#FFD580]]="upcomingTodo.priority === 'medium'"
+                      [class.text-[#FF9B9B]]="upcomingTodo.priority === 'high'"
                     >
                       {{ upcomingTodo.priority }}
                     </div>
                   </td>
 
-                  <td class="text-base-content/70">{{ formatDateTime(upcomingTodo.duedate) }}</td>
-                  <td>
-                    <div
-                      class="badge badge-md"
-                      [class.badge-warning]="upcomingTodo.status === 'pending'"
-                      [class.badge-info]="upcomingTodo.status === 'in_progress'"
-                      [class.badge-success]="upcomingTodo.status === 'completed'"
-                    >
-                      {{ upcomingTodo.status }}
-                    </div>
+                  <td>{{ formatDateTime(upcomingTodo.duedate) }}</td>
+
+                  <td class="rounded-r-md">
+                    @switch (upcomingTodo.status) {
+                      @case ('pending') {
+                        <app-tasks-status-badge status="Pending" />
+                      }
+                      @case ('in_progress') {
+                        <app-tasks-status-badge status="In Progress" />
+                      }
+                      @case ('completed') {
+                        <app-tasks-status-badge status="Completed" />
+                      }
+                    }
                   </td>
                 </tr>
               }

@@ -9,7 +9,7 @@
 >
   <!-- Modal content -->
   <div
-    class="flex flex-col w-80 h-72 bg-app-background-white text-app-background-green rounded-xl border border-base-300 p-5 shadow-xl"
+    class="flex flex-col w-80 h-72 bg-app-background-white text-app-background-green rounded-xl p-5 shadow-xl"
   >
     <!-- Header -->
     <div class="mb-4 flex justify-between">
@@ -41,7 +41,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="completedTodos()"
-            icon="check_circle"
+            icon="completed"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No completed tasks"
             descriptionWhenEmpty="You haven't completed any tasks yet."
@@ -61,7 +61,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="overdueTodos()"
-            icon="warning"
+            icon="overdue"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No overdue tasks"
             descriptionWhenEmpty="You're all caught up with your tasks."
@@ -71,7 +71,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="upcomingTodos()"
-            icon="event"
+            icon="upcoming"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No upcoming tasks"
             descriptionWhenEmpty="You have no tasks scheduled for the future."

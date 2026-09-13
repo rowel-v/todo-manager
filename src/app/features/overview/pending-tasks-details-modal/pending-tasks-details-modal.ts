@@ -1,13 +1,28 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { Todo } from '../../../shared/models/todo';
-import { MatIconModule } from '@angular/material/icon';
 import { TodoDetailsList } from '../../../shared/components/todo-details-list/todo-details-list';
+import {
+  LucideClock5,
+  LucideFlagTriangleRight,
+  LucideAlarmClock,
+  LucideTriangleAlert,
+  LucideArrowLeft,
+  LucideX,
+} from '@lucide/angular';
 
 type TaskCategory = 'pending' | 'high_priority' | 'due_today' | 'overdue' | null;
 
 @Component({
   selector: 'app-pending-tasks-details-modal',
-  imports: [MatIconModule, TodoDetailsList],
+  imports: [
+    TodoDetailsList,
+    LucideX,
+    LucideArrowLeft,
+    LucideClock5,
+    LucideFlagTriangleRight,
+    LucideAlarmClock,
+    LucideTriangleAlert,
+  ],
   templateUrl: './pending-tasks-details-modal.html',
   styles: ``,
 })

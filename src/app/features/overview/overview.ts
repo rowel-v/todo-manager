@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { TodoService } from '../../core/services/todo-service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,8 +10,10 @@ import { formatDateTime } from '../../shared/utils/date-utils';
 import { TotalTasksDetailsModal } from './total-tasks-details-modal/total-tasks-details-modal';
 import { TasksStatusCard } from './tasks-status-card/tasks-status-card';
 import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
-import { InprogressTasksDetailsModal   } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
+import { InprogressTasksDetailsModal } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
 import { CompletedTasksDetailsModal } from './completed-tasks-details-modal/completed-tasks-details-modal';
+import { LucideArrowRight, LucideGhost, LucidePlus } from '@lucide/angular';
+import { TasksStatusBadge } from './tasks-status-badge/tasks-status-badge';
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
 
@@ -25,6 +27,9 @@ type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null
     PendingTasksDetailsModal,
     InprogressTasksDetailsModal,
     CompletedTasksDetailsModal,
+    LucidePlus,
+    TasksStatusBadge,
+    LucideArrowRight,
   ],
   templateUrl: './overview.html',
   styles: ``,
@@ -38,7 +43,8 @@ export class Overview {
   protected modalTodosDetails: TodosDetailsFlag = null;
   protected todosDetailsFlag = signal<TodosDetailsFlag>(null);
   protected isClosing = signal(false);
-
+  // limit to 5 the displayed tasks in overview
+  protected displayedTodaysTasks = computed(() => this.todoService.todaysTasks().slice(0, 5));
 
   protected openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
     this.todosDetailsFlag.set(currentTodosDetailsSelected);
@@ -109,6 +115,7 @@ export class Overview {
   protected todaysTasks(): Todo[] {
     return this.todoService.todaysTasks();
   }
+
   protected upcomingTodos(): Todo[] {
     return this.todoService.upcomingTodos();
   }

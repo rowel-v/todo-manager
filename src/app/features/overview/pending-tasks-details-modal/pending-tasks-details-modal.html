@@ -8,27 +8,29 @@
   [class.scale-out-tl]="isClosing()"
 >
   <!-- Modal content -->
-  <div class="flex flex-col w-80 h-72 rounded-xl border border-base-300 bg-base-100 p-5 shadow-xl">
+  <div
+    class="flex flex-col w-80 h-72 bg-app-background-white text-app-background-green rounded-xl p-5 shadow-xl"
+  >
     <!-- Header -->
     <div class="mb-4 flex justify-between">
       <h2 class="text-lg font-bold">Pending Tasks</h2>
       <!-- Close button -->
       @if (selectedCategory() === null) {
-        <mat-icon
-          class="cursor-pointer rounded hover:bg-base-200"
+        <button
+          class="cursor-pointer rounded hover:bg-gray-300"
           [class.rotate-in-center]="true"
           (click)="closeModal()"
         >
-          close
-        </mat-icon>
+          <svg lucideX />
+        </button>
       } @else {
-        <mat-icon
-          class="cursor-pointer rounded hover:bg-base-200"
+        <button
+          class="cursor-pointer rounded hover:bg-gray-300"
           [class.rotate-in-center]="true"
           (click)="selectCategory(null)"
         >
-          arrow_back
-        </mat-icon>
+          <svg lucideArrowLeft />
+        </button>
       }
     </div>
 
@@ -39,7 +41,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="pendingTodos()"
-            icon="schedule"
+            icon="pending"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No pending tasks"
             descriptionWhenEmpty="All your tasks are completed."
@@ -49,7 +51,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="pendingHighPriority()"
-            icon="priority_high"
+            icon="high_priority"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No high-priority tasks"
             descriptionWhenEmpty="Nothing urgent needs your attention."
@@ -59,7 +61,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="pendingDueToday()"
-            icon="today"
+            icon="due_today"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No tasks due today"
             descriptionWhenEmpty="You're all caught up for today."
@@ -69,7 +71,7 @@
           <app-todo-details-list
             [isEnteringDetail]="true"
             [todos]="overdueTodos()"
-            icon="warning"
+            icon="overdue"
             iconWhenEmpty="check_circle"
             titleWhenEmpty="No overdue tasks"
             descriptionWhenEmpty="You're up to date with your tasks."
@@ -80,44 +82,44 @@
           <div class="space-y-3" [class.slide-in-left]="isReturning()">
             <!-- Total pending tasks -->
             <div
-              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              class="flex items-center justify-between p-2 hover:bg-app-background-hover cursor-pointer rounded-lg transition-colors duration-200"
               (click)="selectCategory('pending')"
             >
               <div class="flex items-center gap-2">
-                <mat-icon class="text-warning">schedule</mat-icon>
+                <svg lucideClock5 />
                 <span>Pending</span>
               </div>
               <span class="font-semibold">{{ pendingTodos().length }} </span>
             </div>
             <!-- High-priority pending tasks -->
             <div
-              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              class="flex items-center justify-between p-2 hover:bg-app-background-hover cursor-pointer rounded-lg transition-colors duration-200"
               (click)="selectCategory('high_priority')"
             >
               <div class="flex items-center gap-2">
-                <mat-icon class="text-error">priority_high</mat-icon>
+                <svg lucideFlagTriangleRight />
                 <span>High Priority</span>
               </div>
               <span class="font-semibold">{{ pendingHighPriority().length }}</span>
             </div>
             <!-- Pending tasks due today -->
             <div
-              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              class="flex items-center justify-between p-2 hover:bg-app-background-hover cursor-pointer rounded-lg transition-colors duration-200"
               (click)="selectCategory('due_today')"
             >
               <div class="flex items-center gap-2">
-                <mat-icon class="text-info">today</mat-icon>
+                <svg lucideAlarmClock />
                 <span>Due Today</span>
               </div>
               <span class="font-semibold">{{ pendingDueToday().length }}</span>
             </div>
             <!-- Overdue pending tasks -->
             <div
-              class="flex items-center justify-between p-2 hover:bg-blue-100 cursor-pointer rounded-lg transition-colors duration-200"
+              class="flex items-center justify-between p-2 hover:bg-app-background-hover cursor-pointer rounded-lg transition-colors duration-200"
               (click)="selectCategory('overdue')"
             >
               <div class="flex items-center gap-2">
-                <mat-icon class="text-error">warning</mat-icon>
+                <svg lucideTriangleAlert />
                 <span>Overdue</span>
               </div>
               <span class="font-semibold">{{ overdueTodos().length }}</span>

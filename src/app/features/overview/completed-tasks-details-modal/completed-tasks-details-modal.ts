@@ -1,14 +1,28 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { Todo } from '../../../shared/models/todo';
-import { MatIconModule } from '@angular/material/icon';
 import { TodoDetailsList } from '../../../shared/components/todo-details-list/todo-details-list';
-
+import {
+  LucideX,
+  LucideArrowLeft,
+  LucideCircleCheck,
+  LucideFlagTriangleRight,
+  LucideBadgeCheck,
+  LucideCalendarCheck,
+} from '@lucide/angular';
 type TaskCategory =
   'completed' | 'high_priority' | 'completed_today' | 'completed_this_week' | null;
 
 @Component({
   selector: 'app-completed-tasks-details-modal',
-  imports: [MatIconModule, TodoDetailsList],
+  imports: [
+    TodoDetailsList,
+    LucideX,
+    LucideArrowLeft,
+    LucideCircleCheck,
+    LucideFlagTriangleRight,
+    LucideBadgeCheck,
+    LucideCalendarCheck,
+  ],
   templateUrl: './completed-tasks-details-modal.html',
   styles: ``,
 })
