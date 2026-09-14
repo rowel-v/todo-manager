@@ -18,6 +18,7 @@
 }
 
 /* Animations */
+
 @keyframes scale-in-tl {
   0% {
     transform: scale(0);
@@ -103,27 +104,12 @@
   }
 }
 
-@keyframes jello-diagonal-2 {
+@keyframes shadow-drop-center {
   0% {
-    transform: skew(0deg 0deg);
-  }
-  30% {
-    transform: skew(-25deg -25deg);
-  }
-  40% {
-    transform: skew(15deg, 15deg);
-  }
-  50% {
-    transform: skew(-15deg, -15deg);
-  }
-  65% {
-    transform: skew(5deg, 5deg);
-  }
-  75% {
-    transform: skew(-5deg, -5deg);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
   100% {
-    transform: skew(0deg 0deg);
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
   }
 }
 
@@ -187,8 +173,8 @@
 }
 
 /* use in circle progress */
-.hover-animate:hover {
-  animation: jello-diagonal-2 0.8s both;
+.hover-shadow-drop-center:hover {
+  animation: shadow-drop-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 /* use in sidebar title */

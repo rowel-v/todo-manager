@@ -137,11 +137,15 @@
 
                   <button
                     class="mt-4 btn btn-sm bg-app-button-purple size-fit hover:bg-app-button-hover-gray border-none"
-                    (click)="openCreateTodoFormDialog()"
+                    (click)="openModal.set('create-todo-dialog')"
                   >
                     <svg lucidePlus />
                     <span class="hidden sm:inline">Add Todo</span>
                   </button>
+
+                  @if (openModal() === 'create-todo-dialog') {
+                    <app-create-task-dialog (cancelled)="openModal.set(null)"/>
+                  }
                 </div>
               </div>
             }
@@ -171,7 +175,7 @@
           <!-- Radial progress -->
           <div class="flex flex-col items-center">
             <div
-              class="radial-progress text-[#00D3BB] bg-[#0E6261] hover-animate cursor-grab"
+              class="radial-progress text-[#00D3BB] bg-[#0E6261] hover-shadow-drop-center cursor-grab"
               style="--size: 10rem; --thickness: 9px"
               [style.--value]="completionRate()"
               [attr.aria-valuenow]="completionRate()"

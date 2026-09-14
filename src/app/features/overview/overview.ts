@@ -12,10 +12,12 @@ import { TasksStatusCard } from './tasks-status-card/tasks-status-card';
 import { PendingTasksDetailsModal } from './pending-tasks-details-modal/pending-tasks-details-modal';
 import { InprogressTasksDetailsModal } from './inprogress-tasks-details-modal/inprogress-tasks-details-modal';
 import { CompletedTasksDetailsModal } from './completed-tasks-details-modal/completed-tasks-details-modal';
-import { LucideArrowRight, LucideGhost, LucidePlus } from '@lucide/angular';
+import { LucideArrowRight, LucidePlus } from '@lucide/angular';
 import { TasksStatusBadge } from './tasks-status-badge/tasks-status-badge';
+import { CreateTaskDialog } from '../../shared/components/dialog/create-task-dialog/create-task-dialog'
 
 type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null;
+type ModalSelection = 'create-todo-dialog' | 'edit-todo-dialog' | null;
 
 @Component({
   selector: 'app-overview',
@@ -30,6 +32,7 @@ type TodosDetailsFlag = 'total' | 'pending' | 'in_progress' | 'completed' | null
     LucidePlus,
     TasksStatusBadge,
     LucideArrowRight,
+    CreateTaskDialog
   ],
   templateUrl: './overview.html',
   styles: ``,
@@ -45,6 +48,8 @@ export class Overview {
   protected isClosing = signal(false);
   // limit to 5 the displayed tasks in overview
   protected displayedTodaysTasks = computed(() => this.todoService.todaysTasks().slice(0, 5));
+
+  protected openModal = signal<ModalSelection>(null);
 
   protected openModalTodosDetailsFlag(currentTodosDetailsSelected: TodosDetailsFlag) {
     this.todosDetailsFlag.set(currentTodosDetailsSelected);
